@@ -1,7 +1,6 @@
 import os
 from rich.console import Console
 from rich.table import Table
-from rich.text import Text
 from typing import Annotated
 from pathlib import Path
 from pydantic import AnyHttpUrl, StringConstraints
