@@ -85,7 +85,7 @@ def print_config() -> None:
             show_header=False,
             box=None,
             title_justify='left',
-            title_style=f'bold italic {colors[0]}'
+            title_style=f'bold italic {colors[2]}'
         )
 
         table.add_column(style=f"{colors[0]}")

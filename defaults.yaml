@@ -3,5 +3,5 @@ serverurl: "https://csc.mpi-magdeburg.mpg.de/mpcsc/MORB-data/"
 indexfile: "examples.csv"
 indexfilehash: "sha256:268838a990c991a29efe3469952c196b37dae0ac98d62d847748ade5bfa6af1d"
 
-# Cache for hosting examples locally
+# Cache for hosting examples
 cache: "./.cache"
