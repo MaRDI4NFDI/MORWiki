@@ -1,0 +1,120 @@
+import polars as pl
+import pooch
+import typing
+from urllib.parse import urljoin
+from scipy.io import loadmat
+
+from morwiki.config import Settings, get_config
+
+
+class ExamplesDB:
+    """
+    A class to represent the examples database.
+    It loads the examples from a CSV file and provides a method to fetch
+    a specific example by name and identifier.
+    """
+
+    def __init__(self, config: Settings = None):
+        """
+        Load the examples from the database.
+        """
+        # Cache directory for downloaded files
+        self.cache_dir = config.cache
+        ## Create directory if it doesn't exist
+        if not self.cache_dir.exists():
+            print(f"Creating examples cache directory: {self.cache_dir}")
+            self.cache_dir.mkdir(parents=True)
+
+        # Path to the examples database
+        fileurl = urljoin(str(config.serverurl), config.indexfile)
+        self.filepath = pooch.retrieve(
+            url=fileurl,
+            known_hash=config.indexfilehash,
+            path=self.cache_dir,
+            fname=config.indexfile,
+        )
+
+        # Check if the file is readable as a CSV
+        print(f"Loading examples database from {self.filepath}")
+        try:
+            self.data = pl.read_csv(self.filepath)
+        except Exception as e:
+            raise RuntimeError(f"Error loading data: {e}")
+
+    def lookup(self, id:str) -> dict:
+        """
+        Lookup an example by its identifier.
+
+        Args:
+            id (str): The identifier of the example.
+
+        Returns:
+            dict: The example data.
+        """
+        example = self.data.filter(pl.col("id") == id)
+        if example.is_empty():
+            raise ValueError(f"Example with id {id} not found.")
+        else:
+            print(f"Example with id {id} found in database.")
+        return example.to_dicts()[0]
+
+# Singleton pattern for global access
+_database: ExamplesDB | None = None
+_config : Settings | None = None
+
+def fetch_example_meta(id)-> dict:
+    """
+    Fetch metadata of example from the example database.
+
+    Args:
+        id (str): The identifier of the example.
+
+    Returns:
+        example: dict with ex ample metadata.
+    """
+    global _database, _config
+    if _config is None:
+        _config = get_config()
+    if _database is None:
+        _database = ExamplesDB(_config)
+
+    return _database.lookup(id)
+
+
+class Example:
+    """
+    A class to represent an example.
+    It contains the metadata and the data associated with the example.
+    """
+
+    def __init__(self, meta:typing.Union[dict,str]):
+        """
+        Initialize the example with metadata.
+
+        Args:
+            meta (dict): The metadata of the example.
+        """
+        global _config
+        if _config is None:
+            _config = get_config()
+
+        if isinstance(meta, str):
+            self.meta = fetch_example_meta(meta)
+        elif isinstance(meta, dict):
+            self.meta = meta
+        else:
+            raise ValueError("Argument must be an example id string or metadata dict.")
+
+        self.file = self.meta['id'] + '.mat'
+        fileurl = urljoin(str(_config.serverurl), self.meta['category'] + '/' + self.file)
+        self.filepath = pooch.retrieve(
+            url = fileurl,
+            known_hash = self.meta['sourceFilehash'],
+            path = _database.cache_dir / self.meta['category'],
+            fname = self.file
+        )
+        try:
+            self.data = loadmat(self.filepath)
+            print(f"Loaded example data from {self.filepath}")
+        except Exception as e:
+            raise RuntimeError(f"Error loading .mat data: {e}")

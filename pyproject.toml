@@ -1,0 +1,24 @@
+[project]
+name = "morwiki"
+version = "0.1.0"
+description = "Model Order Reduction Wiki Data downloader"
+readme = "README.md"
+authors = [
+    { name = "MORB Developers and Contributors", email = "morb@listserv.dfn.de" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "polars>=1.30.0",
+    "pooch>=1.8.2",
+    "pydantic>=2.11.4",
+    "pydantic-settings[yaml]>=2.9.1",
+    "rich>=14.0.0",
+    "scipy>=1.15.3",
+]
+
+[project.scripts]
+morwiki = "morwiki:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
