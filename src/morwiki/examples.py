@@ -18,6 +18,9 @@ class Database:
         """
         Load the examples from the database.
         """
+        if config is None:
+            config = get_config()
+
         # Cache directory for downloaded files
         self.cache_dir = config.cache
         ## Create directory if it doesn't exist
@@ -37,7 +40,11 @@ class Database:
         # Check if the file is readable as a CSV
         print(f"Loading examples database from {self.filepath}")
         try:
-            self.data = pl.read_csv(self.filepath)
+            self.data = pl.read_csv(
+                self.filepath,
+                infer_schema=False,
+                missing_utf8_is_empty_string=True
+            )
         except Exception as e:
             raise RuntimeError(f"Error loading data: {e}")
 
@@ -96,11 +103,11 @@ class Example:
         """
         global _config
         if _config is None:
-            _config = get_config()
+            self._config = get_config()
 
         global _database
         if _database is None:
-            _database = Database(_config)
+            self._database = Database(self._config)
 
         if isinstance(meta, str):
             self.meta = fetch_example_meta(meta)
@@ -109,15 +116,16 @@ class Example:
         else:
             raise ValueError("Argument must be an example id string or metadata dict.")
 
+    def retrieve_matrices(self):
         self.file = self.meta['id'] + '.mat'
         fileurl = urljoin(
-            str(_config.serverurl),
+            str(self._config.serverurl),
             self.meta['category'] + '/' + self.file
         )
         self.filepath = pooch.retrieve(
             url = fileurl,
             known_hash = self.meta['sourceFilehash'],
-            path = _database.cache_dir / self.meta['category'],
+            path = self._database.cache_dir / self.meta['category'],
             fname = self.file
         )
         try:
