@@ -14,13 +14,13 @@ from pydantic_settings import (
 # Custom annotated types for SHA256 hash and CSV filenames
 SHA256Hash = Annotated[str, StringConstraints(pattern=r"^sha256:[a-fA-F0-9]{64}$")]
 CSVFilename = Annotated[str, StringConstraints(pattern=r".+\.csv$")]
-
+DEFAULT_CONFIG_FILE = "defaults.yaml"
 
 class Settings(BaseSettings):
     serverurl: AnyHttpUrl="https://csc.mpi-magdeburg.mpg.de/mpcsc/MORB-data/",
     indexfile: CSVFilename="examples.csv",
     indexfilehash: SHA256Hash="sha256:0f823ca61b5fdefefba9ebfb1242567931b65c8894cbe25553c30244a85fd02e",
-    cache: Path= Path('.cache/')
+    cache: Path= Path('.default_cache/')
 
     # Pydantic Model config: to import the settings from environment variables
     model_config = SettingsConfigDict(
@@ -46,7 +46,7 @@ class Settings(BaseSettings):
             env_settings,
             YamlConfigSettingsSource(
                 settings_cls,
-                yaml_file=os.getenv("MORWIKI_CONFIG_FILE", "defaults.yaml")
+                yaml_file=os.getenv("MORWIKI_CONFIG_FILE", DEFAULT_CONFIG_FILE)
             ),
             init_settings
         )
@@ -63,6 +63,13 @@ def get_config() -> Settings:
         _config = Settings()
 
     return _config
+
+def clear_config():
+    """
+    Unset the global configuration for package
+    """
+    global _config
+    _config = None
 
 def print_config() -> None:
     """

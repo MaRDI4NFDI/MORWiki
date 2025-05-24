@@ -7,7 +7,7 @@ from scipy.io import loadmat
 from morwiki.config import Settings, get_config
 
 
-class ExamplesDB:
+class Database:
     """
     A class to represent the examples database.
     It loads the examples from a CSV file and provides a method to fetch
@@ -59,7 +59,7 @@ class ExamplesDB:
         return example.to_dicts()[0]
 
 # Singleton pattern for global access
-_database: ExamplesDB | None = None
+_database: Database | None = None
 _config : Settings | None = None
 
 def fetch_example_meta(id)-> dict:
@@ -76,7 +76,7 @@ def fetch_example_meta(id)-> dict:
     if _config is None:
         _config = get_config()
     if _database is None:
-        _database = ExamplesDB(_config)
+        _database = Database(_config)
 
     return _database.lookup(id)
 
@@ -98,6 +98,10 @@ class Example:
         if _config is None:
             _config = get_config()
 
+        global _database
+        if _database is None:
+            _database = Database(_config)
+
         if isinstance(meta, str):
             self.meta = fetch_example_meta(meta)
         elif isinstance(meta, dict):
@@ -106,7 +110,10 @@ class Example:
             raise ValueError("Argument must be an example id string or metadata dict.")
 
         self.file = self.meta['id'] + '.mat'
-        fileurl = urljoin(str(_config.serverurl), self.meta['category'] + '/' + self.file)
+        fileurl = urljoin(
+            str(_config.serverurl),
+            self.meta['category'] + '/' + self.file
+        )
         self.filepath = pooch.retrieve(
             url = fileurl,
             known_hash = self.meta['sourceFilehash'],
