@@ -16,7 +16,7 @@ def test_database():
 
     # check data veracity and lookup is possible
     # TODO: width can be flexible and need not be a fixed value
-    assert db.data.width == 48
+    assert db.data.width == 50
     assert db.data['id'].shape[0] > 0
 
 

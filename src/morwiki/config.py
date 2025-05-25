@@ -19,7 +19,7 @@ DEFAULT_CONFIG_FILE = "defaults.yaml"
 class Settings(BaseSettings):
     serverurl: AnyHttpUrl="https://csc.mpi-magdeburg.mpg.de/mpcsc/MORB-data/",
     indexfile: CSVFilename="examples.csv",
-    indexfilehash: SHA256Hash="sha256:0f823ca61b5fdefefba9ebfb1242567931b65c8894cbe25553c30244a85fd02e",
+    indexfilehash: SHA256Hash="sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791",
     cache: Path= Path('.default_cache/')
 
     # Pydantic Model config: to import the settings from environment variables
