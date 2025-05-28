@@ -2,7 +2,7 @@ import os
 from rich.console import Console
 from rich.table import Table
 from rich import print
-from typing import Annotated
+from typing import Annotated, Optional
 from pathlib import Path
 from pydantic import (
     AnyHttpUrl,
@@ -20,6 +20,7 @@ from pydantic_settings import (
 SHA256Hash = Annotated[str, StringConstraints(pattern=r"^sha256:[a-fA-F0-9]{64}$")]
 CSVFilename = Annotated[str, StringConstraints(pattern=r".+\.csv$")]
 ConfigFilename = Annotated[str, StringConstraints(pattern=r".+\.yaml$")]
+HumanFileSize = Optional[Annotated[str, StringConstraints(pattern=r"(?i)^\s*[0-9]+(\.[0-9]+)?\s*(B|KB|MB|GB|TB|KIB|MIB|GIB|TIB)\s*$")]]
 
 # Find path for defaults.yaml file
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -29,6 +30,7 @@ class Settings(BaseSettings):
     serverurl: AnyHttpUrl="https://csc.mpi-magdeburg.mpg.de/mpcsc/MORB-data/",
     indexfile: CSVFilename="examples.csv",
     indexfilehash: SHA256Hash="sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791",
+    max_filesize: HumanFileSize = None
     cache: Path= Path('.cache/')
 
     # Pydantic Model config: to import the settings from environment variables

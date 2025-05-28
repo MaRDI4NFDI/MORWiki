@@ -97,6 +97,20 @@ def get_database():
 
     return _database
 
+
+def _parse_human_size(s):
+    units = {
+        "B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9,
+        "KIB": 2**10, "MIB": 2**20, "GIB": 2**30
+    }
+    s = s.strip().upper().replace(" ", "")
+    for unit in sorted(units.keys(), key=len, reverse=True):
+        if s.endswith(unit):
+            num = float(s[:-len(unit)])
+            return int(num * units[unit])
+    
+    raise ValueError(f"Could not parse size: {s}")
+
 class Example:
     """
     A class to represent an example.
@@ -119,20 +133,29 @@ class Example:
             raise ValueError("Argument must be an example id string or metadata dict.")
 
     def retrieve_matrices(self):
-        self.file = self.meta['id'] + '.mat'
         _config = get_config()
-        fileurl = urljoin(
-            str(_config.serverurl),
-            self.meta['category'] + '/' + self.file
-        )
-        self.filepath = pooch.retrieve(
-            url = fileurl,
-            known_hash = self.meta['sourceFilehash'],
-            path = self._database.cache_dir / self.meta['category'],
-            fname = self.file
-        )
+        file = self.meta['id'] + '.mat'
+        filesize = self.meta['sourceFilesize']
+        filepath = self._database.cache_dir / self.meta['category']
+        threshold = _config.max_filesize
+
+        if threshold and _parse_human_size(filesize) >= _parse_human_size(threshold):
+            raise ValueError(f"File size {filesize} exceeds allowed threshold of {threshold}.")
+        else:
+            fileurl = urljoin(
+                str(_config.serverurl),
+                self.meta['category'] + '/' + file
+            )
+            filepath = pooch.retrieve(
+                url = fileurl,
+                known_hash = self.meta['sourceFilehash'],
+                path = filepath,
+                fname = file,
+                progressbar=True
+            )
+
         try:
-            self.data = loadmat(self.filepath)
-            print(f"Loaded example data from {self.filepath}")
+            self.filepath, self.data = filepath, loadmat(filepath)
+            print(f"Loaded example data from {filepath}")
         except Exception as e:
             raise RuntimeError(f"Error loading .mat data: {e}")
