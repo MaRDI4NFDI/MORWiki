@@ -110,7 +110,7 @@ class Example:
         Args:
             meta (dict): The metadata of the example.
         """
-        self.database = database or get_database()
+        self._database = database or get_database()
         if isinstance(meta, str):
             self.meta = fetch_example_meta(meta)
         elif isinstance(meta, dict):
