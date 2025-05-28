@@ -1,6 +1,7 @@
 import polars as pl
 import pooch
 import typing
+from rich import print
 from urllib.parse import urljoin
 from scipy.io import loadmat
 
@@ -38,13 +39,13 @@ class Database:
         )
 
         # Check if the file is readable as a CSV
-        print(f"Loading examples database from {self.filepath}")
         try:
             self.data = pl.read_csv(
                 self.filepath,
                 infer_schema=False,
                 missing_utf8_is_empty_string=True
             )
+            print(f"[italic orange1]Example database:[/italic orange1] {self.filepath}")
         except Exception as e:
             raise RuntimeError(f"Error loading data: {e}")
 
@@ -60,10 +61,10 @@ class Database:
         """
         example = self.data.filter(pl.col("id") == id)
         if example.is_empty():
-            raise ValueError(f"Example with id {id} not found.")
+            raise ValueError(f"ID {id} not found.")
         else:
-            print(f"Example with id {id} found in database.")
-        return example.to_dicts()[0]
+            print(f"ID [yellow]{id}[/yellow] found.")
+            return example.to_dicts()[0]
 
 # Singleton pattern for global access
 _database: Database | None = None
@@ -87,6 +88,14 @@ def fetch_example_meta(id)-> dict:
 
     return _database.lookup(id)
 
+def get_database():
+    global _database, _config
+    if _config is None:
+        _config = get_config()
+    if _database is None:
+        _database = Database(_config)
+
+    return _database
 
 class Example:
     """
@@ -94,21 +103,14 @@ class Example:
     It contains the metadata and the data associated with the example.
     """
 
-    def __init__(self, meta:typing.Union[dict,str]):
+    def __init__(self, meta:typing.Union[dict,str], database: typing.Union[Database, None]=None):
         """
         Initialize the example with metadata.
 
         Args:
             meta (dict): The metadata of the example.
         """
-        global _config
-        if _config is None:
-            self._config = get_config()
-
-        global _database
-        if _database is None:
-            self._database = Database(self._config)
-
+        self.database = database or get_database()
         if isinstance(meta, str):
             self.meta = fetch_example_meta(meta)
         elif isinstance(meta, dict):
@@ -118,8 +120,9 @@ class Example:
 
     def retrieve_matrices(self):
         self.file = self.meta['id'] + '.mat'
+        _config = get_config()
         fileurl = urljoin(
-            str(self._config.serverurl),
+            str(_config.serverurl),
             self.meta['category'] + '/' + self.file
         )
         self.filepath = pooch.retrieve(
