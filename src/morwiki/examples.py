@@ -5,7 +5,7 @@ from rich import print
 from urllib.parse import urljoin
 from scipy.io import loadmat
 
-from morwiki.config import Settings, get_config
+from morwiki.config import Settings, get_config, HumanFileSize
 
 
 class Database:
@@ -88,7 +88,7 @@ def fetch_example_meta(id)-> dict:
 
     return _database.lookup(id)
 
-def get_database():
+def get_database()-> Database:
     global _database, _config
     if _config is None:
         _config = get_config()
@@ -98,7 +98,7 @@ def get_database():
     return _database
 
 
-def _parse_human_size(s):
+def _parse_human_size(s:HumanFileSize)-> int:
     units = {
         "B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9,
         "KIB": 2**10, "MIB": 2**20, "GIB": 2**30
@@ -134,28 +134,31 @@ class Example:
 
     def retrieve_matrices(self):
         _config = get_config()
-        file = self.meta['id'] + '.mat'
+        filename = self.meta['id'] + '.mat'
         filesize = self.meta['sourceFilesize']
-        filepath = self._database.cache_dir / self.meta['category']
+        filefolder = self._database.cache_dir / self.meta['category']
         threshold = _config.max_filesize
 
-        if threshold and _parse_human_size(filesize) >= _parse_human_size(threshold):
-            raise ValueError(f"File size {filesize} exceeds allowed threshold of {threshold}.")
-        else:
-            fileurl = urljoin(
-                str(_config.serverurl),
-                self.meta['category'] + '/' + file
-            )
-            filepath = pooch.retrieve(
-                url = fileurl,
-                known_hash = self.meta['sourceFilehash'],
-                path = filepath,
-                fname = file,
-                progressbar=True
-            )
-
         try:
-            self.filepath, self.data = filepath, loadmat(filepath)
-            print(f"Loaded example data from {filepath}")
-        except Exception as e:
-            raise RuntimeError(f"Error loading .mat data: {e}")
+            filepath = filefolder / filename
+            data = loadmat(filepath)
+        except OSError:
+            print(f"Data file not found in {filepath}. Trying to fetch from server...")
+            if threshold is None or (_parse_human_size(filesize) <= _parse_human_size(threshold)):
+                fileurl = urljoin(
+                    str(_config.serverurl),
+                    self.meta['category'] + '/' + filename
+                )
+                filepath = pooch.retrieve(
+                    url = fileurl,
+                    known_hash = self.meta['sourceFilehash'],
+                    path = filefolder,
+                    fname = filename,
+                    progressbar=True
+                )
+            else:
+                raise ValueError(f"File size {filesize} exceeds allowed threshold of {threshold}.")
+            data = loadmat(filepath)
+
+        print(f"Loaded example data from {filepath}")
+        self.filepath, self.data = filepath, data
