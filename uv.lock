@@ -158,6 +158,9 @@ dependencies = [
 dev = [
     { name = "pytest" },
 ]
+test = [
+    { name = "pytest" },
+]
 
 [package.metadata]
 requires-dist = [
@@ -170,7 +173,8 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=8.3.5" }]
+dev = [{ name = "pytest", specifier = ">=6" }]
+test = [{ name = "pytest", specifier = ">=6" }]
 
 [[package]]
 name = "numpy"

@@ -4,7 +4,24 @@ version = "0.1.0"
 description = "Model Order Reduction Wiki Data downloader"
 readme = "README.md"
 authors = [
-    { name = "MORB Developers and Contributors", email = "morb@listserv.dfn.de" }
+    { name = "MORB Developers and Contributors", email = "morb@listserv.dfn.de" },
+]
+license = "BSD-3-Clause"
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Typing :: Typed",
 ]
 requires-python = ">=3.10"
 dependencies = [
@@ -20,10 +37,9 @@ dependencies = [
 morwiki = "morwiki:main"
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.26", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = [
-    "pytest>=8.3.5",
-]
+test = ["pytest>=6"]
+dev = [{ include-group = "test" }]
