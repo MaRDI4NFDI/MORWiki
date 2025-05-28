@@ -4,7 +4,11 @@ from rich.table import Table
 from rich import print
 from typing import Annotated
 from pathlib import Path
-from pydantic import AnyHttpUrl, StringConstraints
+from pydantic import (
+    AnyHttpUrl,
+    StringConstraints,
+    TypeAdapter
+)
 from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
@@ -15,6 +19,7 @@ from pydantic_settings import (
 # Custom annotated types for SHA256 hash and CSV filenames
 SHA256Hash = Annotated[str, StringConstraints(pattern=r"^sha256:[a-fA-F0-9]{64}$")]
 CSVFilename = Annotated[str, StringConstraints(pattern=r".+\.csv$")]
+ConfigFilename = Annotated[str, StringConstraints(pattern=r".+\.yaml$")]
 
 # Find path for defaults.yaml file
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -47,9 +52,11 @@ class Settings(BaseSettings):
         Priority: Source file defaults < YAML File < Environment Variables
         """
         CONFIG_FILE = Path(os.getenv("MORWIKI_CONFIG_FILE", DEFAULT_CONFIG_FILE))
+        assert TypeAdapter(ConfigFilename).validate_python(str(CONFIG_FILE))
 
+        # CONFIG_FILE specified, but check if exists
         if not CONFIG_FILE.exists():
-            Warning(f"Could not find config at {CONFIG_FILE}. Using runtime defaults!")
+            print(f"[red]Config: {CONFIG_FILE} not found.[/red] Reverting to defaults!")
             return (env_settings, init_settings)
         else:
             print(f"[italic orange1]Config:[/italic orange1] {CONFIG_FILE}")
@@ -61,6 +68,7 @@ class Settings(BaseSettings):
                 ),
                 init_settings
             )
+
 
 # Singleton pattern for global access
 _config: Settings | None = None
