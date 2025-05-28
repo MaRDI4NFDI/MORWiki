@@ -51,7 +51,7 @@ class Settings(BaseSettings):
 
         Priority: Source file defaults < YAML File < Environment Variables
         """
-        CONFIG_FILE = Path(os.getenv("MORWIKI_CONFIG_FILE", DEFAULT_CONFIG_FILE))
+        CONFIG_FILE = Path(os.getenv("MORWIKI_CONFIG_FILE", DEFAULT_CONFIG_FILE)).expanduser().resolve(strict=False)
         assert TypeAdapter(ConfigFilename).validate_python(str(CONFIG_FILE))
 
         # CONFIG_FILE specified, but check if exists

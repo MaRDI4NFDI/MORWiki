@@ -23,7 +23,7 @@ class Database:
             config = get_config()
 
         # Cache directory for downloaded files
-        self.cache_dir = config.cache
+        self.cache_dir = (config.cache).expanduser().resolve(strict=False)
         ## Create directory if it doesn't exist
         if not self.cache_dir.exists():
             print(f"Creating examples cache directory: {self.cache_dir}")
