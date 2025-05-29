@@ -4,8 +4,8 @@ import importlib.metadata
 from typing import Any
 
 project = "morwiki"
-copyright = "2025, Ashwin Nayak"
-author = "Ashwin Nayak"
+copyright = "2025, MORB Developers and Contributors"
+author = "MORB Developers and Contributors"
 version = release = importlib.metadata.version("morwiki")
 
 extensions = [
@@ -31,7 +31,7 @@ exclude_patterns = [
 html_theme = "furo"
 
 html_theme_options: dict[str, Any] = {
-    "source_repository": "https://gitlab.mpi-magdeburg.de/mardi/morwiki",
+    "source_repository": "https://gitlab.mpi-magdeburg.mpg.de/anayak/morwiki",
     "source_branch": "main",
     "source_directory": "docs/",
 }

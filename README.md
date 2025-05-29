@@ -1,5 +1,7 @@
 # MORWiki
 
+<!-- SPHINX-START -->
+
 Fetches data (and metadata) from MORWiki Examples
 
 Authors:
@@ -60,6 +62,7 @@ nox -s tests  # Python tests
 #### Building docs
 You can build and serve the docs using:
 ```bash
+nox -s build_api_docs
 nox -s docs
 ```
 
