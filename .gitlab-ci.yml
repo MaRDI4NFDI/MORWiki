@@ -1,0 +1,53 @@
+stages:
+    - test
+    - build
+
+variables:
+    # see https://docs.gitlab.com/ee/ci/caching/#cache-python-dependencies
+    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+    paths:
+        - .cache/pip
+        - .venv/
+
+image: gitlab.mpi-magdeburg.mpg.de/ci-images/python-images/3.10:noble
+before_script:
+    # want to set up a virtualenv to cache
+    - apt-get install -y --no-install-recommends git
+    - python -V
+    - python -m venv .venv
+    - source .venv/bin/activate
+    - python -m pip install -U pip pipx
+    - python -m pipx ensurepath
+    - python -m pip freeze
+
+tests:
+    stage: test
+    image: $IMAGE
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "push"
+    script:
+        - python -V
+        - python -m pip install . --group=test
+    parallel:
+        matrix:
+            - IMAGE:
+                  [
+                      "gitlab.mpi-magdeburg.mpg.de/ci-images/python-images/3.10:noble",
+                      "gitlab.mpi-magdeburg.mpg.de/ci-images/python-images/3.11:noble",
+                      "gitlab.mpi-magdeburg.mpg.de/ci-images/python-images/3.12:noble",
+                      "gitlab.mpi-magdeburg.mpg.de/ci-images/python-images/3.13:noble",
+                  ]
+
+package:
+    stage: build
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "push"
+    script:
+        - pipx run build
+        - pipx run twine check dist/*
+    artifacts:
+        paths:
+            - dist/
+        expire_in: 1 day
