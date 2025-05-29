@@ -15,9 +15,12 @@ class Database:
     a specific example by name and identifier.
     """
 
-    def __init__(self, config: Settings = None):
+    def __init__(self, config: typing.Optional[Settings] = None):
         """
         Load the examples from the database.
+
+        Args:
+            config (Settings, optional): The configuration settings. Defaults to None.
         """
         if config is None:
             config = get_config()
@@ -41,15 +44,13 @@ class Database:
         # Check if the file is readable as a CSV
         try:
             self.data = pl.read_csv(
-                self.filepath,
-                infer_schema=False,
-                missing_utf8_is_empty_string=True
+                self.filepath, infer_schema=False, missing_utf8_is_empty_string=True
             )
             print(f"[italic orange1]Example database:[/italic orange1] {self.filepath}")
         except Exception as e:
             raise RuntimeError(f"Error loading data: {e}")
 
-    def lookup(self, id:str) -> dict:
+    def lookup(self, id: str) -> dict:
         """
         Lookup an example by its identifier.
 
@@ -66,11 +67,13 @@ class Database:
             print(f"ID [yellow]{id}[/yellow] found.")
             return example.to_dicts()[0]
 
+
 # Singleton pattern for global access
 _database: Database | None = None
-_config : Settings | None = None
+_config: Settings | None = None
 
-def fetch_example_meta(id)-> dict:
+
+def fetch_example_meta(id) -> dict:
     """
     Fetch metadata of example from the example database.
 
@@ -88,7 +91,14 @@ def fetch_example_meta(id)-> dict:
 
     return _database.lookup(id)
 
-def get_database()-> Database:
+
+def get_database() -> Database:
+    """
+    Get the global database instance.
+
+    Returns:
+        Database: The global database instance.
+    """
     global _database, _config
     if _config is None:
         _config = get_config()
@@ -98,18 +108,37 @@ def get_database()-> Database:
     return _database
 
 
-def _parse_human_size(s:HumanFileSize)-> int:
+def _parse_human_size(s: HumanFileSize) -> int:
+    """
+    Parse a human-readable size string into an integer.
+
+    Args:
+        s (str): The human-readable size string.
+
+    Returns:
+        int: The parsed size in bytes.
+
+    Raises:
+        ValueError: If the size string is invalid.
+    """
     units = {
-        "B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9,
-        "KIB": 2**10, "MIB": 2**20, "GIB": 2**30
+        "B": 1,
+        "KB": 10**3,
+        "MB": 10**6,
+        "GB": 10**9,
+        "KIB": 2**10,
+        "MIB": 2**20,
+        "GIB": 2**30,
     }
+    assert s is not None
     s = s.strip().upper().replace(" ", "")
     for unit in sorted(units.keys(), key=len, reverse=True):
         if s.endswith(unit):
-            num = float(s[:-len(unit)])
+            num = float(s[: -len(unit)])
             return int(num * units[unit])
 
     raise ValueError(f"Could not parse size: {s}")
+
 
 class Example:
     """
@@ -117,9 +146,13 @@ class Example:
     It contains the metadata and the data associated with the example.
     """
 
-    def __init__(self, meta:typing.Union[dict,str], database: typing.Union[Database, None]=None):
+    def __init__(
+        self,
+        meta: typing.Union[dict, str],
+        database: typing.Union[Database, None] = None,
+    ):
         """
-        Initialize the example with metadata.
+        Lookup the example ID in `Database` and initialize with metadata.
 
         Args:
             meta (dict): The metadata of the example.
@@ -133,10 +166,16 @@ class Example:
             raise ValueError("Argument must be an example id string or metadata dict.")
 
     def retrieve(self):
+        """
+        Retrieve the data associated with the example either from the local cache or from the server.
+
+        Returns:
+            None
+        """
         _config = get_config()
-        filename = self.meta['id'] + '.mat'
-        filesize = self.meta['sourceFilesize']
-        filefolder = self._database.cache_dir / self.meta['category']
+        filename = self.meta["id"] + ".mat"
+        filesize = self.meta["sourceFilesize"]
+        filefolder = self._database.cache_dir / self.meta["category"]
         threshold = _config.max_filesize
 
         filepath = filefolder / filename
@@ -144,20 +183,23 @@ class Example:
             data = loadmat(filepath)
         except OSError:
             print(f"Data file not found in {filepath}. Trying to fetch from server...")
-            if threshold is None or (_parse_human_size(filesize) <= _parse_human_size(threshold)):
+            if threshold is None or (
+                _parse_human_size(filesize) <= _parse_human_size(threshold)
+            ):
                 fileurl = urljoin(
-                    str(_config.serverurl),
-                    self.meta['category'] + '/' + filename
+                    str(_config.serverurl), self.meta["category"] + "/" + filename
                 )
                 filepath = pooch.retrieve(
-                    url = fileurl,
-                    known_hash = self.meta['sourceFilehash'],
-                    path = filefolder,
-                    fname = filename,
-                    progressbar=True
+                    url=fileurl,
+                    known_hash=self.meta["sourceFilehash"],
+                    path=filefolder,
+                    fname=filename,
+                    progressbar=True,
                 )
             else:
-                raise ValueError(f"File size {filesize} exceeds maximum download size of {threshold}.")
+                raise ValueError(
+                    f"File size {filesize} exceeds maximum download size of {threshold}."
+                )
             data = loadmat(filepath)
 
         print(f"Loaded example data from {filepath}")
