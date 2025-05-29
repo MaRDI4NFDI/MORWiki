@@ -6,11 +6,6 @@ variables:
     # see https://docs.gitlab.com/ee/ci/caching/#cache-python-dependencies
     PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
-cache:
-    paths:
-        - .cache/pip
-        - .venv/
-
 image: gitlab.mpi-magdeburg.mpg.de/ci-images/python-images/3.10:noble
 before_script:
     # want to set up a virtualenv to cache
