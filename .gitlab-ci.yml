@@ -14,7 +14,6 @@ cache:
 image: gitlab.mpi-magdeburg.mpg.de/ci-images/python-images/3.10:noble
 before_script:
     # want to set up a virtualenv to cache
-    - apt-get install -y --no-install-recommends git
     - python -V
     - python -m venv .venv
     - source .venv/bin/activate
@@ -50,4 +49,4 @@ package:
     artifacts:
         paths:
             - dist/
-        expire_in: 1 day
+        expire_in: 1 week
