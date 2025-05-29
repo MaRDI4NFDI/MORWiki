@@ -28,9 +28,9 @@ git clone https://gitlab.mpi-magdeburg.mpg.de/anayak/morwiki.git
 cd morwiki
 ```
 
-Install the required dependencies using `uv` (Recommended),
+Install the required dependencies using `uv` (recommended),
 
-> If you don't have `uv` installed, check out the [installation instructions](https://docs.astral.sh/uv/getting-started/installation/) for your platform with either `pip`, `pipx`, `brew`, and just downloading the binary (single file).
+> Check out the [installation instructions](https://docs.astral.sh/uv/getting-started/installation/) to install `uv` for your platform or via `pip`, `pipx`, `brew`, and just downloading the binary (single file).
 
 ```bash
 uv sync
@@ -72,7 +72,7 @@ nox -s docs --non-interactive
 ```
 
 #### Build distribution
-Make an SDist and wheel:
+Make an sdist and wheel:
 ```bash
 nox -s build
 ```
