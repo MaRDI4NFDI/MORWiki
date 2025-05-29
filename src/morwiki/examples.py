@@ -132,15 +132,15 @@ class Example:
         else:
             raise ValueError("Argument must be an example id string or metadata dict.")
 
-    def retrieve_matrices(self):
+    def retrieve(self):
         _config = get_config()
         filename = self.meta['id'] + '.mat'
         filesize = self.meta['sourceFilesize']
         filefolder = self._database.cache_dir / self.meta['category']
         threshold = _config.max_filesize
 
+        filepath = filefolder / filename
         try:
-            filepath = filefolder / filename
             data = loadmat(filepath)
         except OSError:
             print(f"Data file not found in {filepath}. Trying to fetch from server...")
