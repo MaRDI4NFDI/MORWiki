@@ -108,7 +108,7 @@ def _parse_human_size(s:HumanFileSize)-> int:
         if s.endswith(unit):
             num = float(s[:-len(unit)])
             return int(num * units[unit])
-    
+
     raise ValueError(f"Could not parse size: {s}")
 
 class Example:
@@ -157,7 +157,7 @@ class Example:
                     progressbar=True
                 )
             else:
-                raise ValueError(f"File size {filesize} exceeds allowed threshold of {threshold}.")
+                raise ValueError(f"File size {filesize} exceeds maximum download size of {threshold}.")
             data = loadmat(filepath)
 
         print(f"Loaded example data from {filepath}")
