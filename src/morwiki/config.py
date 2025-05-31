@@ -4,6 +4,7 @@ from rich.table import Table
 from rich import print
 from typing import Annotated, Optional
 from pathlib import Path
+import platformdirs
 from pydantic import AnyHttpUrl, StringConstraints, TypeAdapter
 from pydantic_settings import (
     BaseSettings,
@@ -50,7 +51,9 @@ class Settings(BaseSettings):
         "sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791"
     )
     max_filesize: HumanFileSize = None
-    cache: Path = Path(".cache/")
+    cache: Path = platformdirs.user_cache_path(
+        appname="morwiki", appauthor="morb-users", ensure_exists=True
+    )
 
     # Pydantic Model config: to import the settings from environment variables
     model_config = SettingsConfigDict(
