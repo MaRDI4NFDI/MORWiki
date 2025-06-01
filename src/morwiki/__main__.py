@@ -4,29 +4,33 @@ from platformdirs import user_config_dir
 from rich import print
 
 parser = argparse.ArgumentParser(
-    prog='morwiki',
-    description='Creates a configuration file `morwiki.config.yaml` for MORWiki',
-    epilog='You may edit the configuration file once it has been created',
+    prog="morwiki",
+    description="Creates a configuration file `morwiki.config.yaml` for MORWiki",
+    epilog="You may edit the configuration file once it has been created",
     formatter_class=argparse.RawTextHelpFormatter,
 )
 
 parser.add_argument(
-    '--create-config',
-    nargs='?',
-    const='.',
-    metavar='CONFIG_DIR',
+    "--create-config",
+    nargs="?",
+    const=".",
+    metavar="CONFIG_DIR",
     help=(
-        'Create a config file in the specified directory.\n'
-        '  --create-config             → create in current directory\n'
-        '  --create-config /some/path  → create in /some/path\n'
-        '  --create-config user        → create in user config dir\n'
-    )
+        "Create a config file in the specified directory.\n"
+        "  --create-config             → create in current directory\n"
+        "  --create-config /some/path  → create in /some/path\n"
+        "  --create-config user        → create in user config dir\n"
+    ),
 )
 args = parser.parse_args()
 
 if args.create_config is not None:
     if args.create_config == "user":
-        config_dir = Path(user_config_dir(appname="morwiki", appauthor="morb-users", ensure_exists=True))
+        config_dir = Path(
+            user_config_dir(
+                appname="morwiki", appauthor="morb-users", ensure_exists=True
+            )
+        )
     else:
         config_dir = Path(args.create_config).expanduser().resolve()
 

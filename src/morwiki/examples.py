@@ -2,10 +2,14 @@ import polars as pl
 import pooch
 import typing
 from rich import print
+import logging
 from urllib.parse import urljoin
 from scipy.io import loadmat
 
 from morwiki.config import Settings, get_config, HumanFileSize
+
+logger = pooch.get_logger()
+logger.setLevel(logging.ERROR)
 
 
 class Database:

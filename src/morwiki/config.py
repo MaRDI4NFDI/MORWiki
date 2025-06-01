@@ -4,7 +4,7 @@ from rich.table import Table
 from rich import print
 from typing import Annotated, Optional
 from pathlib import Path
-import platformdirs
+from platformdirs import user_config_path, user_cache_path
 from pydantic import AnyHttpUrl, StringConstraints, TypeAdapter
 from pydantic_settings import (
     BaseSettings,
@@ -26,9 +26,16 @@ HumanFileSize = Optional[
     ]
 ]
 
-# Find path for defaults.yaml file
-PROJECT_ROOT = Path(__file__).parent.parent.parent
-DEFAULT_CONFIG_FILE = (PROJECT_ROOT / "defaults.yaml").resolve()
+# Find path for default morwiki.config.yaml file
+config_path = Path.cwd()
+config_filename = "morwiki.config.yaml"
+local_config = config_path / config_filename
+if local_config.exists():
+    DEFAULT_CONFIG_FILE = local_config
+else:
+    config_path = user_config_path(appname="morwiki", appauthor="morb-users")
+    global_config = config_path / config_filename
+    DEFAULT_CONFIG_FILE = global_config
 
 
 class Settings(BaseSettings):
@@ -51,7 +58,7 @@ class Settings(BaseSettings):
         "sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791"
     )
     max_filesize: HumanFileSize = None
-    cache: Path = platformdirs.user_cache_path(
+    cache: Path = user_cache_path(
         appname="morwiki", appauthor="morb-users", ensure_exists=True
     )
 
