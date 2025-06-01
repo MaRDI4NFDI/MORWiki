@@ -75,9 +75,9 @@ class Database:
         example = self.data.filter(pl.col("id") == id)
         print(f"Lookup ID [yellow]{id}[/yellow]: ", end="")
         if example.is_empty():
-            raise ValueError(f"not found!")
+            raise ValueError("not found!")
         else:
-            print(f"found.")
+            print("found.")
             return example.to_dicts()[0]
 
 

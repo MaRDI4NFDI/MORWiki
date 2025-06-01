@@ -136,10 +136,11 @@ def print_config() -> None:
     def _print_dict_as_table(
         title: str,
         data: dict,
-        colors=["magenta", "deep_sky_blue1", "orange1"],
-        console=None,
+        colors: Optional[list[str]] = None,
+        console: Optional[Console] = None,
     ):
-
+        if colors is None:
+            colors = ["magenta", "deep_sky_blue1", "orange1"]
         if console is None:
             console = Console()
 
