@@ -38,21 +38,29 @@ class Database:
 
         # Path to the examples database
         fileurl = urljoin(str(config.serverurl), config.indexfile)
-        self.filepath = pooch.retrieve(
-            url=fileurl,
-            known_hash=config.indexfilehash,
-            path=self.cache_dir,
-            fname=config.indexfile,
-        )
-
-        # Check if the file is readable as a CSV
+        self.filepath = self.cache_dir / config.indexfile
         try:
+            # Check if the file is readable as a CSV
             self.data = pl.read_csv(
                 self.filepath, infer_schema=False, missing_utf8_is_empty_string=True
             )
-            print(f"[italic orange1]Example database:[/italic orange1] {self.filepath}")
-        except Exception as e:
-            raise RuntimeError(f"Error loading data: {e}")
+        except FileNotFoundError:
+            print(
+                f"Database not found in {self.filepath}. Trying to fetch from server..."
+            )
+            self.filepath = pooch.retrieve(
+                url=fileurl,
+                known_hash=config.indexfilehash,
+                path=self.cache_dir,
+                fname=config.indexfile,
+                progressbar=True,
+            )
+            self.data = pl.read_csv(
+                self.filepath, infer_schema=False, missing_utf8_is_empty_string=True
+            )
+        print(
+            f"[italic orange1]Loaded example database:[/italic orange1] {self.filepath}"
+        )
 
     def lookup(self, id: str) -> dict:
         """
@@ -65,10 +73,11 @@ class Database:
             dict: The example data.
         """
         example = self.data.filter(pl.col("id") == id)
+        print(f"Lookup ID [yellow]{id}[/yellow]: ", end="")
         if example.is_empty():
-            raise ValueError(f"ID {id} not found.")
+            raise ValueError(f"not found!")
         else:
-            print(f"ID [yellow]{id}[/yellow] found.")
+            print(f"found.")
             return example.to_dicts()[0]
 
 
