@@ -36,6 +36,9 @@ html_theme_options: dict[str, Any] = {
     "source_directory": "docs/",
 }
 
+autodoc_typehints = "description"
+autodoc_typehints_format = "short"
+
 myst_enable_extensions = [
     "colon_fence",
 ]

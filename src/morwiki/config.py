@@ -3,6 +3,7 @@ from rich.console import Console
 from rich.table import Table
 from rich import print
 from typing import Annotated, Optional
+from typing_extensions import Doc
 from pathlib import Path
 from platformdirs import user_config_path, user_cache_path
 from pydantic import AnyHttpUrl, StringConstraints, TypeAdapter
@@ -13,18 +14,38 @@ from pydantic_settings import (
     YamlConfigSettingsSource,
 )
 
-# Custom annotated types for SHA256 hash and CSV filenames
-SHA256Hash = Annotated[str, StringConstraints(pattern=r"^sha256:[a-fA-F0-9]{64}$")]
-CSVFilename = Annotated[str, StringConstraints(pattern=r".+\.csv$")]
-ConfigFilename = Annotated[str, StringConstraints(pattern=r".+\.yaml$")]
+# Custom annotated types
+SHA256Hash = Annotated[
+    str,
+    StringConstraints(pattern=r"^sha256:[a-fA-F0-9]{64}$"),
+    Doc(
+        "A string starting with 'sha256:' followed by a 64-character hexadecimal hash."
+    ),
+]
+"""SHA256Hash: A SHA-256 hash string prefixed with 'sha256:'"""
+
+CSVFilename = Annotated[
+    str, StringConstraints(pattern=r".+\.csv$"), Doc("A filename ending in '.csv'.")
+]
+"""CSVFilename: A filename ending in '.csv'"""
+
+ConfigFilename = Annotated[
+    str,
+    StringConstraints(pattern=r".+\.yaml$"),
+    Doc("A filename ending in '.yaml'."),
+]
+"""ConfigFilename: A filename ending in '.yaml'"""
+
 HumanFileSize = Optional[
     Annotated[
         str,
         StringConstraints(
             pattern=r"(?i)^\s*[0-9]+(\.[0-9]+)?\s*(B|KB|MB|GB|TB|KIB|MIB|GIB|TIB)\s*$"
         ),
+        Doc("A human-readable file size like '10 MB' or '1.5 GiB'."),
     ]
 ]
+"""HumanFileSize: A human-readable file size like '10 MB' or '1.5 GiB'."""
 
 # Find path for default morwiki.config.yaml file
 config_path = Path.cwd()
