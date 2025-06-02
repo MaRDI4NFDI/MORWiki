@@ -111,7 +111,6 @@ class Settings(BaseSettings):
 
         # CONFIG_FILE specified, but check if exists
         if not CONFIG_FILE.exists():
-            print(f"[red]Config: {CONFIG_FILE} not found.[/red] Reverting to defaults!")
             return (env_settings, init_settings)
         else:
             print(f"[italic orange1]Config:[/italic orange1] {CONFIG_FILE}")
