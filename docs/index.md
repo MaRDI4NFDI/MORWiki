@@ -10,6 +10,10 @@
 :start-after: <!-- SPHINX-START -->
 ```
 
+```{include} ../CONFIGURE.md
+:start-after: <!-- SPHINX-START -->
+```
+
 ## Indices and tables
 
 - {ref}`genindex`
