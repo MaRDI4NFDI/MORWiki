@@ -36,15 +36,14 @@ ConfigFilename = Annotated[
 ]
 """ConfigFilename: A filename ending in '.yaml'"""
 
-HumanFileSize = Optional[
-    Annotated[
-        str,
-        StringConstraints(
-            pattern=r"(?i)^\s*[0-9]+(\.[0-9]+)?\s*(B|KB|MB|GB|TB|KIB|MIB|GIB|TIB)\s*$"
-        ),
-        Doc("A human-readable file size like '10 MB' or '1.5 GiB'."),
-    ]
+HumanFileSize = Annotated[
+    str,
+    StringConstraints(
+        pattern=r"(?i)^\s*[0-9]+(\.[0-9]+)?\s*(B|KB|MB|GB|TB|KIB|MIB|GIB|TIB)\s*$"
+    ),
+    Doc("A human-readable file size like '10 MB' or '1.5 GiB'."),
 ]
+
 """HumanFileSize: A human-readable file size like '10 MB' or '1.5 GiB'."""
 
 # Find path for default morwiki.config.yaml file
@@ -67,7 +66,7 @@ class Settings(BaseSettings):
         serverurl (AnyHttpUrl): The base URL for the MorWiki server.
         indexfile (CSVFilename): The filename of the index file.
         indexfilehash (SHA256Hash): The SHA256 hash of the index file.
-        max_filesize (HumanFileSize): The maximum file size allowed.
+        max_filesize (Optional[HumanFileSize]): The maximum file size allowed.
         cache (Path): The path to the cache directory.
     """
 
@@ -78,7 +77,7 @@ class Settings(BaseSettings):
     indexfilehash: SHA256Hash = (
         "sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791"
     )
-    max_filesize: HumanFileSize = None
+    max_filesize: Optional[HumanFileSize] = None
     cache: Path = user_cache_path(
         appname="morwiki", appauthor="morb-users", ensure_exists=True
     )

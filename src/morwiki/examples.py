@@ -126,7 +126,7 @@ def _parse_human_size(s: HumanFileSize) -> int:
     Parse a human-readable size string into an integer.
 
     Args:
-        s (str): The human-readable size string.
+        s (HumanFileSize): The human-readable size string.
 
     Returns:
         int: The parsed size in bytes.
@@ -143,7 +143,6 @@ def _parse_human_size(s: HumanFileSize) -> int:
         "MIB": 2**20,
         "GIB": 2**30,
     }
-    assert s is not None
     s = s.strip().upper().replace(" ", "")
     for unit in sorted(units.keys(), key=len, reverse=True):
         if s.endswith(unit):
