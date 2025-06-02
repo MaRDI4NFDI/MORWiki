@@ -22,6 +22,13 @@ parser.add_argument(
         "  --create-config user        → create in user config dir\n"
     ),
 )
+
+parser.add_argument(
+    '--print-config',
+    action='store_true',
+    help='Print the configuration that morwiki uses'
+)
+
 args = parser.parse_args()
 
 if args.create_config is not None:
@@ -49,3 +56,7 @@ if args.create_config is not None:
         f.write(config_data)
 
     print(f"Creating config in: {config_dir}")
+
+if args.print_config:
+    from morwiki.config import print_config
+    print_config()
