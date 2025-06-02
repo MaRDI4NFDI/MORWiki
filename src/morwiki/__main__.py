@@ -24,9 +24,9 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    '--print-config',
-    action='store_true',
-    help='Print the configuration that morwiki uses'
+    "--print-config",
+    action="store_true",
+    help="Print the configuration that morwiki uses",
 )
 
 args = parser.parse_args()
@@ -44,9 +44,9 @@ if args.create_config is not None:
     config_data = (
         "# Server configuration for MORWiki\n"
         "# Server URL, database file and file hash\n"
-        "serverurl: \"https://csc.mpi-magdeburg.mpg.de/mpcsc/MORB-data/\"\n"
-        "indexfile: \"examples.csv\"\n"
-        "indexfilehash: \"sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791\"\n"
+        'serverurl: "https://csc.mpi-magdeburg.mpg.de/mpcsc/MORB-data/"\n'
+        'indexfile: "examples.csv"\n'
+        'indexfilehash: "sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791"\n'
         "# Custom Cache location\n"
         f"cache_dir: \"{user_cache_dir(appname='morwiki', appauthor='morb-users')}\"\n"
     )
@@ -59,4 +59,5 @@ if args.create_config is not None:
 
 if args.print_config:
     from morwiki.config import print_config
+
     print_config()
