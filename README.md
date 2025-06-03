@@ -23,7 +23,17 @@ Documentation:
 
 ## Installation
 
-### Getting started
+This project relies heavily on `uv`, a fast and efficient tool for managing Python projects and their dependencies.
+
+> [!tip]
+> To install `uv`, check out the [official installation instructions](https://docs.astral.sh/uv/getting-started/installation/) for your platform. Alternatively, you can also install it via `pip`, `pipx`, `brew`, and by downloading the standalone binary.
+
+The following sections provide more details on how to use this project for different purposes.
+
+> [!note]
+> For developers (testing, documentation and building), refer to [README.dev.md](README.dev.md).
+
+### Run Demos
 First clone the repository
 
 ```bash
@@ -31,22 +41,26 @@ git clone https://gitlab.mpi-magdeburg.mpg.de/anayak/morwiki.git
 cd morwiki
 ```
 
-Install the required dependencies using `uv` (recommended),
-
-> Check out the [installation instructions](https://docs.astral.sh/uv/getting-started/installation/) to install `uv` for your platform or via `pip`, `pipx`, `brew`, and just downloading the binary (single file).
+Install the required dependencies,
 
 ```bash
 uv sync
 ```
-This will read the dependencies from `pyproject.toml` and install them in a virtual environment. The virtual environment will be created in the `.venv` directory by default.
+This command reads the dependencies from `pyproject.toml` and installs them into a virtual environment, which is created by default in the `.venv` directory.
 
-Subsequently, you can run the demos using `uv`,
+Subsequently, you can run the demos,
 
 ```bash
 uv run demos/steel_profile.py
 ```
 
-For development documentation (testing, documentation and building), refer to [README.dev.md](README.dev.md).
+### Use in your own projects
+
+To install this project as a dependency,
+
+```bash
+uv add git+https://gitlab.mpi-magdeburg.mpg.de/anayak/morwiki.git
+```
 
 ## Configuration
 
