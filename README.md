@@ -18,6 +18,9 @@ Affiliation:
 License:
   - BSD 3-Clause, see [`LICENSE`](LICENSE).
 
+Documentation:
+  - [Gitlab Pages](http://morwiki-515d88.pages.csc.mpi-magdeburg.mpg.de/index.html) (currently, only available internally within institute)
+
 ## Installation
 
 ### Getting started
