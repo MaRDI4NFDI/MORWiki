@@ -3,6 +3,7 @@ import pytest
 from pathlib import Path
 from morwiki.config import get_config, clear_config
 
+
 @pytest.fixture
 def mock_yaml_file(tmp_path):
     config_data = """
@@ -15,6 +16,7 @@ def mock_yaml_file(tmp_path):
     with open(yaml_path, "w") as f:
         f.write(config_data)
     return yaml_path
+
 
 def test_load_default_config():
     """Test loading default config (using default file and env)"""
@@ -39,6 +41,6 @@ def test_load_yaml_config_from_env(monkeypatch, mock_yaml_file):
     config = get_config()
 
     # Assert the config values from YAML file
-    assert config.cache == Path('./.test_cache')
+    assert config.cache == Path("./.test_cache")
 
     clear_config()

@@ -48,7 +48,7 @@ if args.create_config is not None:
         'indexfile: "examples.csv"\n'
         'indexfilehash: "sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791"\n'
         "# Custom Cache location\n"
-        f"cache_dir: \"{user_cache_dir(appname='morwiki', appauthor='morb-users')}\"\n"
+        f'cache_dir: "{user_cache_dir(appname="morwiki", appauthor="morb-users")}"\n'
     )
 
     yaml_path = config_dir / "morwiki.config.yaml"

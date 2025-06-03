@@ -4,5 +4,5 @@ from morwiki import print_config, Example
 print_config()
 
 # Lookup example ID and fetch data from cache/server
-example = Example('steelProfile_n1357m7q6')
+example = Example("steelProfile_n1357m7q6")
 example.retrieve()

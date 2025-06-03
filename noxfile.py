@@ -12,6 +12,7 @@ PROJECT = nox.project.load_toml()
 nox.needs_version = ">=2025.2.9"
 nox.options.default_venv_backend = "uv|virtualenv"
 
+
 @nox.session
 def tests(session: nox.Session) -> None:
     """
@@ -70,6 +71,7 @@ def build_api_docs(session: nox.Session) -> None:
         "--force",
         "src/morwiki",
     )
+
 
 @nox.session(default=False)
 def build(session: nox.Session) -> None:
