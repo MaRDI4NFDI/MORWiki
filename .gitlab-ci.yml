@@ -1,6 +1,7 @@
 stages:
     - test
     - build
+    - deploy
 
 variables:
     # see https://docs.gitlab.com/ee/ci/caching/#cache-python-dependencies
@@ -15,6 +16,7 @@ before_script:
     - python -m pip install -U pip pipx
     - python -m pipx ensurepath
     - python -m pip freeze
+    - python -m pip install -U nox
 
 tests:
     stage: test
@@ -45,3 +47,25 @@ package:
         paths:
             - dist/
         expire_in: 1 week
+
+build-docs:
+    stage: build
+    script:
+        - nox -s build_api_docs
+        - nox -s docs
+        - mkdir -p public
+        - cp -r docs/_build/html/* public/
+    artifacts:
+        paths:
+            - public
+        expire_in: 1 hour
+
+pages:
+    stage: deploy
+    script:
+        - echo "Deploying to GitLab Pages"
+    artifacts:
+        paths:
+            - public
+    only:
+        - main
