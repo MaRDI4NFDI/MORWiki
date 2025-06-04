@@ -5,7 +5,7 @@ from rich import print
 from typing import Annotated, Optional
 from typing_extensions import Doc
 from pathlib import Path
-from platformdirs import user_config_path, user_cache_path
+from platformdirs import user_config_path, user_cache_path, user_cache_dir
 from pydantic import AnyHttpUrl, StringConstraints, TypeAdapter
 from pydantic_settings import (
     BaseSettings,
@@ -182,3 +182,44 @@ def print_config() -> None:
     _print_dict_as_table(
         title="MORWIKI Configuration", data=get_config().model_dump(), console=Console()
     )
+
+def create_config(yaml_path: Path):
+    config_data = (
+        "# Server configuration for MORWiki\n"
+        "# Server URL, database file and file hash\n"
+        'serverurl: "https://csc.mpi-magdeburg.mpg.de/mpcsc/MORB-data/"\n'
+        'indexfile: "examples.csv"\n'
+        'indexfilehash: "sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791"\n'
+        "# Custom Cache location\n"
+        f'cache_dir: "{user_cache_dir(appname="morwiki", appauthor="morb-users")}"\n'
+    )
+
+    if yaml_path.exists():
+        print("Config already exists!")
+    else:
+        with open(yaml_path, "w") as f:
+            f.write(config_data)
+
+def list_config():
+    yaml_file = "morwiki.config.yaml"
+
+    # Find if yaml file found in env
+    paths = [
+        Path(os.getenv("MORWIKI_CONFIG_FILE", DEFAULT_CONFIG_FILE))
+        .expanduser()
+        .resolve(strict=False),
+        Path.cwd() / yaml_file,
+        user_config_path(appname="morwiki", appauthor="morb-users") / yaml_file,
+    ]
+
+    for path in paths:
+        if path.exists():
+            print(f"Found config at {path}")
+            return
+
+def delete_config(yaml_path: Path):
+    if yaml_path.exists():
+        yaml_path.unlink()
+        print(f"Deleted config at {yaml_path}")
+    else:
+        print(f"Config not found at {yaml_path}")
