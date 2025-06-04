@@ -183,7 +183,14 @@ def print_config() -> None:
         title="MORWIKI Configuration", data=get_config().model_dump(), console=Console()
     )
 
+
 def create_config(yaml_path: Path):
+    """
+    Create a new configuration file at the specified path.
+
+    Args:
+        yaml_path (Path): The path to the YAML configuration file.
+    """
     config_data = (
         "# Server configuration for MORWiki\n"
         "# Server URL, database file and file hash\n"
@@ -200,7 +207,12 @@ def create_config(yaml_path: Path):
         with open(yaml_path, "w") as f:
             f.write(config_data)
 
+
 def list_config():
+    """
+    List available configuration files in the current working directory,
+    user configuration directory and any context included due to environment variables.
+    """
     yaml_file = "morwiki.config.yaml"
 
     # Find if yaml file found in env
@@ -220,7 +232,14 @@ def list_config():
 
     return existing_configs
 
+
 def delete_config(yaml_path: Path):
+    """
+    Delete a YAML configuration file.
+
+    Args:
+        yaml_path (Path): Path to the YAML configuration file.
+    """
     if yaml_path.exists():
         yaml_path.unlink()
         print(f"Deleted config at {yaml_path}")
