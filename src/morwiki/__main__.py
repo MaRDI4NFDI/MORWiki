@@ -1,6 +1,6 @@
 import argparse
 from pathlib import Path
-from platformdirs import user_config_dir, user_cache_dir
+from platformdirs import user_config_dir
 from rich import print
 
 parser = argparse.ArgumentParser(
