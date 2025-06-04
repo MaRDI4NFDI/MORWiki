@@ -46,6 +46,8 @@ parser.add_argument(
     help=(
         "Delete a config file.\n"
         "  --delete-config /some/path/morwiki.config.yaml\n"
+        "Delete all found config files\n"
+        "  --delete-config all\n"
     ),
 )
 
@@ -80,10 +82,15 @@ if args.list_config:
 
 if args.delete_config is not None:
     from pydantic import TypeAdapter
-    from morwiki.config import delete_config, ConfigFilename
+    from morwiki.config import list_config, delete_config, ConfigFilename
 
-    assert TypeAdapter(ConfigFilename).validate_python(args.delete_config)
-    yaml_path = Path(args.delete_config).expanduser().resolve()
-    print(f"Deleting config: {yaml_path}")
-
-    delete_config(yaml_path)
+    if args.delete_config=="all":
+        yaml_paths = list_config()
+        for yaml_path in yaml_paths:
+            print(f"Deleting config: {yaml_path}")
+            delete_config(yaml_path)
+    else:
+        assert TypeAdapter(ConfigFilename).validate_python(args.delete_config)
+        yaml_path = Path(args.delete_config).expanduser().resolve()
+        print(f"Deleting config: {yaml_path}")
+        delete_config(yaml_path)
