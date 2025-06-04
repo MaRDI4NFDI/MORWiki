@@ -68,3 +68,7 @@ To delete all found configuration files, run:
 ```bash
 uv run python3 -m morwiki --delete-config all
 ```
+
+> These management functions are useful for handling static configuration of MORWiki.
+> For dynamic configuration, note that you would need to use `clear_config()`
+> before re-initiating config with `get_config()`.
