@@ -43,10 +43,28 @@ To specify a custom configuration file located elsewhere, set the `MORWIKI_CONFI
 export MORWIKI_CONFIG_FILE=/path/to/config.yaml
 ```
 
-### View active configuration
+### Managing configuration files
 
 To print the active configuration, run:
 
 ```bash
 uv run python3 -m morwiki --print-config
+```
+
+To list configuration files (found in above context), run:
+
+```bash
+uv run python3 -m morwiki --list-configs
+```
+
+To delete a configuration file, run:
+
+```bash
+uv run python3 -m morwiki --delete-config /some/path/morwiki.config.yaml
+```
+
+To delete all found configuration files, run:
+
+```bash
+uv run python3 -m morwiki --delete-config all
 ```
