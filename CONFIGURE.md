@@ -54,7 +54,7 @@ uv run python3 -m morwiki --print-config
 To list configuration files (found in above context), run:
 
 ```bash
-uv run python3 -m morwiki --list-configs
+uv run python3 -m morwiki --list-config
 ```
 
 To delete a configuration file, run:

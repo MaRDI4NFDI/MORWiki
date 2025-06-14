@@ -224,11 +224,14 @@ def list_config():
         user_config_path(appname="morwiki", appauthor="morb-users") / yaml_file,
     ]
 
-    existing_configs = [path for path in paths if path.exists()]
+    existing_configs = [path for path in set(paths) if path.exists()]
 
-    print("Found configs at:")
-    for config in existing_configs:
-        print(f" - {config}")
+    if existing_configs:
+        print("Found configs at:")
+        for config in existing_configs:
+            print(f" - {config}")
+    else:
+        print("No configs found!")
 
     return existing_configs
 
