@@ -1,6 +1,7 @@
 import os
 import pytest
 from pathlib import Path
+from platformdirs import user_cache_path
 from morwiki.config import get_config, clear_config
 
 
@@ -27,7 +28,7 @@ def test_load_default_config():
     config = get_config()
 
     # Check default values
-    assert config.cache == Path("./.cache")
+    assert config.cache == user_cache_path(appname="morwiki", appauthor="morb-users")
 
     clear_config()
 
