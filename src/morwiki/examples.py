@@ -5,8 +5,9 @@ from rich import print
 import logging
 from urllib.parse import urljoin
 from scipy.io import loadmat
+from pydantic import AnyHttpUrl, BaseModel
 
-from morwiki.config import Settings, get_config, HumanFileSize
+from morwiki.config import Settings, get_config, SHA256Hash, HumanFileSize
 
 logger = pooch.get_logger()
 logger.setLevel(logging.ERROR)
@@ -151,6 +152,57 @@ def _parse_human_size(s: HumanFileSize) -> int:
 
     raise ValueError(f"Could not parse size: {s}")
 
+class ExampleMeta(BaseModel):
+    id: str
+    MORWikiPageName: str
+    category: str
+    MORWikiLink: AnyHttpUrl
+    paperSource: str
+    benchmarkCreator:str
+    dataCreator: str
+    nStates: int
+    nInputs: int
+    nOutputs: int
+    dataSource: str
+    sourceFilename: str
+    comments: str
+    components: str
+    nParameters: int
+    systemClass: str
+    isDAE: bool
+    daeDiffIndex: int
+    isSquare: bool
+    isStateSpaceSymm: bool
+    isSysSymm: bool
+    isPassive: bool
+    isContractive: bool
+    isStable: bool
+    nUnstabPoles: int
+    isASymm: bool
+    isACholAble: bool
+    isASparse: bool
+    nnzA: int
+    condA: float
+    isESymm: bool
+    isECholAble: bool
+    isESparse: bool
+    nnzE: int
+    condE: float
+    isMSymm: bool
+    isMCholAble: bool
+    isMSparse: bool
+    nnzM: int
+    condM: float
+    isKSymm: bool
+    isKCholAble: bool
+    isKSparse: bool
+    nnzK: int
+    condK: float
+    license: str
+    dataEditor: str
+    zenodoLink: AnyHttpUrl
+    sourceFilehash: SHA256Hash
+    sourceFilesize: HumanFileSize
 
 class Example:
     """
@@ -185,9 +237,15 @@ class Example:
             None
         """
         _config = get_config()
-        filename = self.meta["id"] + ".mat"
-        filesize = self.meta["sourceFilesize"]
-        filefolder = self._database.cache_dir / self.meta["category"]
+
+        try:
+            required_meta_keys = ["id", "sourceFilehash", "sourceFilesize", "category"]
+            id, filehash, filesize, category = (self.meta[k] for k in required_meta_keys)
+        except KeyError as e:
+            raise ValueError(f"Missing metadata key: {e}") from e
+
+        filename = id + ".mat"
+        filefolder = self._database.cache_dir / category
         threshold = _config.max_filesize
 
         filepath = filefolder / filename
@@ -199,11 +257,11 @@ class Example:
                 _parse_human_size(filesize) <= _parse_human_size(threshold)
             ):
                 fileurl = urljoin(
-                    str(_config.serverurl), self.meta["category"] + "/" + filename
+                    str(_config.serverurl), category + "/" + filename
                 )
                 filepath = pooch.retrieve(
                     url=fileurl,
-                    known_hash=self.meta["sourceFilehash"],
+                    known_hash=filehash,
                     path=filefolder,
                     fname=filename,
                     progressbar=True,
