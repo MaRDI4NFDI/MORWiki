@@ -31,7 +31,7 @@ exclude_patterns = [
 html_theme = "furo"
 
 html_theme_options: dict[str, Any] = {
-    "source_repository": "https://gitlab.mpi-magdeburg.mpg.de/anayak/morwiki",
+    "source_repository": "https://gitlab.mpi-magdeburg.mpg.de/mardi/morwiki",
     "source_branch": "main",
     "source_directory": "docs/",
 }

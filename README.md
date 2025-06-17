@@ -37,7 +37,7 @@ The following sections provide more details on how to use this project for diffe
 First clone the repository
 
 ```bash
-git clone https://gitlab.mpi-magdeburg.mpg.de/anayak/morwiki.git
+git clone https://gitlab.mpi-magdeburg.mpg.de/mardi/morwiki.git
 cd morwiki
 ```
 
@@ -59,7 +59,7 @@ uv run demos/steel_profile.py
 To install this project as a dependency,
 
 ```bash
-uv add git+https://gitlab.mpi-magdeburg.mpg.de/anayak/morwiki.git
+uv add git+https://gitlab.mpi-magdeburg.mpg.de/mardi/morwiki.git
 ```
 
 ## Configuration
