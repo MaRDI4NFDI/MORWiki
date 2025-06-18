@@ -71,7 +71,7 @@ class Settings(BaseSettings):
     """
 
     serverurl: AnyHttpUrl = AnyHttpUrl(
-        "https://csc.mpi-magdeburg.mpg.de/mpcsc/MORB-data/"
+        "https://modelreduction.org/morb-data/"
     )
     indexfile: CSVFilename = "examples.csv"
     indexfilehash: SHA256Hash = (
@@ -194,7 +194,7 @@ def create_config(yaml_path: Path):
     config_data = (
         "# Server configuration for MORWiki\n"
         "# Server URL, database file and file hash\n"
-        'serverurl: "https://csc.mpi-magdeburg.mpg.de/mpcsc/MORB-data/"\n'
+        'serverurl: "https://modelreduction.org/morb-data/"\n'
         'indexfile: "examples.csv"\n'
         'indexfilehash: "sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791"\n'
         "# Custom Cache location\n"

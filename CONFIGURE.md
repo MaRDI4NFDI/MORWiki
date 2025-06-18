@@ -7,7 +7,7 @@ The default values are as follows:
 
 | Property | Value |
 | ---------------|-----------|
-| Server URL     | `https://csc.mpi-magdeburg.mpg.de/mpcsc/MORB-data/` |
+| Server URL     | `https://modelreduction.org/morb-data/` |
 | Indexfile      | `examples.csv` |
 | Indexfile hash | `sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791` |
 | Max Filesize   | `None` |
