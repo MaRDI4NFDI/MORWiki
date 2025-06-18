@@ -155,7 +155,7 @@ def _parse_human_size(s: HumanFileSize) -> int:
 class ExampleMeta(BaseModel):
     id: str
     MORWikiPageName: str
-    category: str
+    category: typing.Literal["misc", "oberwolfach", "onera", "power_system", "procedural", "slicot"]
     MORWikiLink: AnyHttpUrl
     paperSource: str
     benchmarkCreator:str
