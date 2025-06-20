@@ -46,7 +46,7 @@ class Database:
             )
         except FileNotFoundError:
             print(
-                f"Database not found in {self.filepath}. Trying to fetch from server..."
+                f"Database {self.filepath} not found. Trying to fetch from server..."
             )
             self.filepath = pooch.retrieve(
                 url=fileurl,
@@ -194,7 +194,7 @@ class Example:
         try:
             data = loadmat(filepath)
         except OSError:
-            print(f"Data file not found in {filepath}. Trying to fetch from server...")
+            print(f"Data file {filepath} not found. Trying to fetch from server...")
             if threshold is None or (
                 _parse_human_size(filesize) <= _parse_human_size(threshold)
             ):
