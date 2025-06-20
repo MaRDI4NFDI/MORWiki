@@ -194,13 +194,18 @@ class Example:
         try:
             data = loadmat(filepath)
         except OSError:
-            print(f"Data file {filepath} not found. Trying to fetch from server...")
             if threshold is None or (
                 _parse_human_size(filesize) <= _parse_human_size(threshold)
             ):
-                fileurl = urljoin(
-                    str(_config.serverurl), self.meta["category"] + "/" + filename
+                print(
+                    f"Data file {filepath} not found. Trying to fetch from zenodo/server..."
                 )
+                try:
+                    fileurl = self.meta["zenodoLink"]
+                except KeyError:
+                    fileurl = urljoin(
+                        str(_config.serverurl), self.meta["category"] + "/" + filename
+                    )
                 filepath = pooch.retrieve(
                     url=fileurl,
                     known_hash=self.meta["sourceFilehash"],
