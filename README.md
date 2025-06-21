@@ -2,14 +2,14 @@
 
 <!-- SPHINX-START -->
 
-Fetches data (and metadata) from MORWiki Examples
+A configurable data (and metadata) fetcher for [MORWiki](https://modelreduction.org/morwiki) examples.
 
 Authors:
-- **Ashwin S. Nayak**
+- Ashwin S. Nayak
   [![orcid](https://img.shields.io/badge/%20-orcid-black?logo=orcid&style=plastic)](https://orcid.org/0000-0002-9855-2377)
   [![gitlab](https://img.shields.io/badge/%20-gitlab-black?logo=gitlab&style=plastic)](https://gitlab.mpi-magdeburg.mpg.de/anayak)
   [![github](https://img.shields.io/badge/%20-github-black?logo=github&style=plastic)](https://github.com/ashwin-nayak)
-- **Jens Saak**
+- Jens Saak
   [![orcid](https://img.shields.io/badge/%20-orcid-black?logo=orcid&style=plastic)](https://orcid.org/0000-0001-5567-9637)
   [![gitlab](https://img.shields.io/badge/%20-gitlab-black?logo=gitlab&style=plastic)](https://gitlab.mpi-magdeburg.mpg.de/saak)
   [![github](https://img.shields.io/badge/%20-github-black?logo=github&style=plastic)](https://github.com/drittelhacker)
@@ -36,7 +36,7 @@ The following sections provide more details on how to use this project for diffe
 > For developers (testing, documentation and building), refer to [README.dev.md](README.dev.md).
 
 ### Run Demos
-First clone the repository
+First clone the repository,
 
 ```bash
 git clone https://github.com/mardi4nfdi/morwiki.git
