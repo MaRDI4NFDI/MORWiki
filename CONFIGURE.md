@@ -2,7 +2,11 @@
 
 `MORWiki` supports flexible configuration through environment variables or a YAML configuration file.
 <!-- SPHINX-START -->
-The precedence for configuration values is as follows (from highest to lowest): environment variables, YAML configuration file, default configuration.
+The precedence for configuration values is as follows (from highest to lowest):
+1. environment variables,
+2. configuration file (YAML),
+3. default configuration.
+
 The default values are as follows:
 
 | Property | Value |
@@ -35,7 +39,7 @@ To generate a template configuration file at a specific path (e.g. `/some/path`)
 uv run python3 -m morwiki --create-config /some/path
 ```
 If no path is specified, the configuration file will be created in the current working directory.
-Using the `--create-config user` option places the file in the user's cache directory.
+Using the `--create-config user` option places the file in the user's config directory (`~/.config/morwiki` on Linux).
 
 The configuration file in the working directory takes precedence over the user-level configuration file.
 To specify a custom configuration file located elsewhere, set the `MORWIKI_CONFIG_FILE` environment variable:
