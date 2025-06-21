@@ -43,15 +43,24 @@ uv add git+https://github.com/mardi4nfdi/morwiki.git
 
 You can then use it in your code,
 ```python
-from morwiki import Example
+from morwiki import Database, Example
+
+# List all example identifiers in Database
+database = Database()
+ids = database.list_ids()
 
 # Pull metadata using ID
-example = Example('steelProfile_n1357m7q6')
+id = "steelProfile_n1357m7q6"
+example = Example(id, database)
+metadata = example.meta # or also, database.lookup(id)
 
-# Fetch system matrices from Zenodo or Server
+# Fetch system matrices from Zenodo or server
 example.retrieve()
+matrices = example.data
 ```
-Check [configuration details](#configuration) for details on configuring server settings and cache locations.
+
+The database currently has a subset of models in [MORWiki](https://modelreduction.org/morwiki), and it is best to list ids to check if they exist.
+Check [configuration details](#configuration) for details on configuring database, server settings and cache locations.
 
 ### Run Demos
 First clone the repository,
