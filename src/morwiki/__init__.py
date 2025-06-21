@@ -5,7 +5,7 @@ morwiki: MORWiki Fetcher for MORB
 """
 
 from morwiki.config import Settings, print_config, get_config, clear_config
-from morwiki.examples import Database, Example, fetch_example_meta, get_database
+from morwiki.examples import Database, Example, get_database
 
 __all__ = [
     "Settings",
@@ -14,6 +14,5 @@ __all__ = [
     "print_config",
     "Database",
     "Example",
-    "fetch_example_meta",
     "get_database",
 ]

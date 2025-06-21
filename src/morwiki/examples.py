@@ -85,26 +85,6 @@ class Database:
 _database: Database | None = None
 _config: Settings | None = None
 
-
-def fetch_example_meta(id) -> dict:
-    """
-    Fetch metadata of example from the example database.
-
-    Args:
-        id (str): The identifier of the example.
-
-    Returns:
-        example: dict with ex ample metadata.
-    """
-    global _database, _config
-    if _config is None:
-        _config = get_config()
-    if _database is None:
-        _database = Database(_config)
-
-    return _database.lookup(id)
-
-
 def get_database() -> Database:
     """
     Get the global database instance.
@@ -171,7 +151,7 @@ class Example:
         """
         self._database = database or get_database()
         if isinstance(meta, str):
-            self.meta = fetch_example_meta(meta)
+            self.meta = self._database.lookup(meta)
         elif isinstance(meta, dict):
             self.meta = meta
         else:
