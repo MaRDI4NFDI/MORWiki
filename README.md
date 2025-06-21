@@ -41,6 +41,18 @@ The project is yet to be published on PyPI, so to install this project as a depe
 uv add git+https://github.com/mardi4nfdi/morwiki.git
 ```
 
+You can then use it in your code,
+```python
+from morwiki import Example
+
+# Pull metadata using ID
+example = Example('steelProfile_n1357m7q6')
+
+# Fetch system matrices from Zenodo or Server
+example.retrieve()
+```
+Check [configuration details](#configuration) for details on configuring server settings and cache locations.
+
 ### Run Demos
 First clone the repository,
 
