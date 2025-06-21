@@ -12,5 +12,6 @@ build:
         - asdf install uv latest
         - asdf global uv latest
         - uv sync --group docs
+        - uv run sphinx-apidoc -o docs/api/ --module-first --no-toc --force src/morwiki
         - uv run python -m sphinx -T -b html -d docs/_build/doctrees -D language=en
           docs $READTHEDOCS_OUTPUT/html
