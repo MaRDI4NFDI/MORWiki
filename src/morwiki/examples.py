@@ -62,6 +62,15 @@ class Database:
             f"[italic orange1]Loaded example database:[/italic orange1] {self.filepath}"
         )
 
+    def list_ids(self):
+        """
+        List all example identifiers.
+
+        Returns:
+            list[str]: The list of example identifiers.
+        """
+        return self.data["id"].to_list()
+
     def lookup(self, id: str) -> dict:
         """
         Lookup an example by its identifier.
