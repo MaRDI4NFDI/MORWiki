@@ -1,4 +1,3 @@
- <!-- SPHINX-START -->
 # For Developers
 
 [`nox`](https://nox.thea.codes) is the preferred tool to start with development.
@@ -13,28 +12,18 @@ nox
 ```
 You can also run specific jobs:
 
-## Testing
-
-Use pytest to run the unit checks:
+Use pytest to run the unit tests,
 
 ```bash
 nox -s tests  # Python tests
 ```
 
-## Building docs
-You can build and serve the docs using:
+Build and serve the docs using:
 ```bash
 nox -s build_api_docs
 nox -s docs
 ```
-
-You can build the docs only with:
-```bash
-nox -s docs --non-interactive
-```
-
-## Build distribution
-Make an sdist and wheel:
+Make an sdist and wheel,
 ```bash
 nox -s build
 ```

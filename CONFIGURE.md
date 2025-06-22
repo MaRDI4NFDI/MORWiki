@@ -1,7 +1,7 @@
 # MORWiki Configuration
 
 `MORWiki` supports flexible configuration through environment variables or a YAML configuration file.
-<!-- SPHINX-START -->
+
 The precedence for configuration values is as follows (from highest to lowest):
 1. environment variables,
 2. configuration file (YAML),

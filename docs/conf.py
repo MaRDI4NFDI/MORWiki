@@ -36,7 +36,7 @@ html_theme_options: dict[str, Any] = {
     "source_directory": "docs/",
 }
 
-autodoc_mock_imports = ["polars"]
+autodoc_mock_imports = ["polars", "pydantic", "pydantic_settings"]
 autodoc_typehints = "description"
 autodoc_typehints_format = "short"
 

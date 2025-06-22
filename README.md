@@ -1,7 +1,5 @@
 # MORWiki
 
-<!-- SPHINX-START -->
-
 A configurable data (and metadata) fetcher for [MORWiki](https://modelreduction.org/morwiki) examples.
 
 Authors:
@@ -40,6 +38,10 @@ The project is yet to be published on PyPI, so to install this project as a depe
 ```bash
 uv add git+https://github.com/mardi4nfdi/morwiki.git
 ```
+> If using `pip`, you can install it via,
+> ```
+> pip install git+https://github.com/mardi4nfdi/morwiki.git
+> ```
 
 You can then use it in your code,
 ```python
@@ -59,8 +61,9 @@ example.retrieve()
 matrices = example.data
 ```
 
-The database currently has a subset of models in [MORWiki](https://modelreduction.org/morwiki), and it is best to list ids to check if they exist.
-Check [configuration details](#configuration) for details on configuring database, server settings and cache locations.
+The database currently has a subset of benchmarks in [MORWiki](https://modelreduction.org/morwiki), and it is best to list ids to check if they exist.
+
+`MORWiki` supports flexible configuration through environment variables or a YAML configuration file. See the [configuration guide](CONFIGURE.md) for more details.
 
 ### Run Demos
 First clone the repository,
@@ -82,7 +85,3 @@ Subsequently, you can run the demos,
 ```bash
 uv run demos/steel_profile.py
 ```
-
-## Configuration
-
-`MORWiki` supports flexible configuration through environment variables or a YAML configuration file. See the [configuration guide](CONFIGURE.md) for more details.
