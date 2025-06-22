@@ -2,13 +2,15 @@
 
 This project relies heavily on `uv`, a fast and efficient tool for managing Python projects and their dependencies. While this is not strictly necessary, it eases the installation process.
 
-> [!tip]
-> To install `uv`, check out the [official installation instructions](https://docs.astral.sh/uv/getting-started/installation/) for your platform. Alternatively, you can also install it via `pip`, `pipx`, `brew`, and by downloading the standalone binary.
+:::{tip}
+To install `uv`, check out the [official installation instructions](https://docs.astral.sh/uv/getting-started/installation/) for your platform. Alternatively, you can also install it via `pip`, `pipx`, `brew`, and by downloading the standalone binary.
+:::
 
 The following sections provide more details on how to use this project for different purposes.
 
-> [!note]
-> For developers (testing, documentation and building), refer to {ref}`developer notes <id-dev-notes>`.
+:::{note}
+For developers (testing, documentation and building), refer to {ref}`developer notes <id-dev-notes>`.
+:::
 
 ## Use in your own projects
 
