@@ -28,7 +28,7 @@ exclude_patterns = [
     ".venv",
 ]
 
-html_theme = "furo"
+html_theme = "sphinx_rtd_theme"
 
 html_theme_options: dict[str, Any] = {
     "source_repository": "https://github.com/mardi4nfdi/morwiki",
@@ -39,7 +39,13 @@ html_theme_options: dict[str, Any] = {
 autodoc_mock_imports = ["polars", "pydantic", "pydantic_settings"]
 autodoc_typehints = "description"
 autodoc_typehints_format = "short"
-
+autodoc_default_options = {
+    'show-inheritance': True,
+    'undoc-members': True,
+    'member-order': 'bysource',
+    'exclude-members': '',
+    'no-value': True,  # This hides default values
+}
 myst_enable_extensions = [
     "colon_fence",
 ]
