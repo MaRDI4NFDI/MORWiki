@@ -60,7 +60,7 @@ else:
 
 class Settings(BaseSettings):
     """
-    Configuration settings for MorWiki.
+    Configuration settings for MORWiki.
 
     Attributes:
         serverurl (AnyHttpUrl): The base URL for the MorWiki server.
