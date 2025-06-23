@@ -210,3 +210,19 @@ class Example:
 
         print(f"Loaded example data from {filepath}")
         self.filepath, self.data = filepath, data
+
+    def __getitem__(self, key):
+        try:
+            return self.meta[key]
+        except KeyError:
+            try:
+                return self.data[key]
+            except AttributeError:
+                raise AttributeError(
+                    f"'{self.__class__.__name__}' object has no 'data' attribute."
+                    f" If you are trying to access matrices, first load the datasets using {self.__class__.__name__}.retrieve()"
+                )
+            except KeyError:
+                raise KeyError(
+                    f"'{self.__class__.__name__}' object has no '{key}' attribute."
+                )
