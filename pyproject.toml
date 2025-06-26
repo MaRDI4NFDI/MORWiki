@@ -8,13 +8,9 @@ authors = [
 ]
 license = "BSD-3-Clause"
 classifiers = [
-    "Development Status :: 1 - Planning",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -36,6 +32,10 @@ dependencies = [
 
 [project.scripts]
 morwiki = "morwiki:main"
+
+[project.urls]
+Documentation = "https://morwiki.readthedocs.io"
+Repository = "https://github.com/mardi4nfdi/morwiki"
 
 [build-system]
 requires = ["hatchling>=1.26", "hatch-vcs"]
