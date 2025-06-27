@@ -4,12 +4,29 @@ import typing
 from rich import print
 import logging
 from urllib.parse import urljoin
-from scipy.io import loadmat
+import scipy.io as sio
+import mat73 as m73
 
 from morb_fetch.config import Settings, get_config, HumanFileSize
 
 logger = pooch.get_logger()
 logger.setLevel(logging.ERROR)
+
+def loadmat(filepath):
+    """
+    Load a MATLAB file using scipy.io or mat73.
+
+    Args:
+        filepath (str): The path to the MATLAB file.
+
+    Returns:
+        dict: The loaded MATLAB data.
+    """
+    try:
+        data = sio.loadmat(filepath)
+    except NotImplementedError:
+        data = m73.loadmat(filepath)
+    return data
 
 
 class Database:
@@ -177,6 +194,7 @@ class Example:
         filename = self.meta["id"] + ".mat"
         filesize = self.meta["sourceFilesize"]
         filefolder = self._database.cache_dir / self.meta["category"]
+        filefolder.mkdir(parents=True, exist_ok=True)
         threshold = _config.max_filesize
 
         filepath = filefolder / filename
@@ -189,9 +207,8 @@ class Example:
                 print(
                     f"Data file {filepath} not found. Trying to fetch from zenodo/server..."
                 )
-                try:
-                    fileurl = self.meta["zenodoLink"]
-                except KeyError:
+                fileurl = self.meta["zenodoLink"]
+                if not fileurl.strip():
                     fileurl = urljoin(
                         str(_config.serverurl), self.meta["category"] + "/" + filename
                     )
