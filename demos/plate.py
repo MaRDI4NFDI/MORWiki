@@ -1,4 +1,4 @@
-from morwiki import print_config, Example
+from morb_fetch import print_config, Example
 
 # Print configuration details of the package
 print_config()

@@ -1,4 +1,4 @@
-from morwiki import get_config, print_config, Database, Example
+from morb_fetch import get_config, print_config, Database, Example
 
 # Print configuration details of the package
 config = get_config()
