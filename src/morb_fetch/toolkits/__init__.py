@@ -1,4 +1,4 @@
-from morb_fetch.toolkits import ToolkitDownloader
+from morb_fetch.toolkits.toolkit import ToolkitDownloader
 from morb_fetch.toolkits.morlab import MORLABDownloader
 from morb_fetch.toolkits.mmess import MMESSDownloader
 
