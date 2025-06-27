@@ -3,19 +3,11 @@ from typing import Annotated, ClassVar, Optional
 from typing_extensions import Doc
 from pydantic import BaseModel, StringConstraints
 
+from morb_fetch._types import DOIstr
 from morb_fetch.config import get_config, Settings
 
 logger = pooch.get_logger()
 logger.setLevel("WARNING")
-
-DOIstr = Annotated[
-    str,
-    StringConstraints(pattern=r"^doi:10\.\d{4,9}/[-._;()/:A-Z0-9]+$"),
-    Doc(
-        "A string starting with 'doi:' followed by record id."
-    )
-]
-""" DOIstr: A string starting with 'doi:' followed by record id. """
 
 
 class ToolkitDownloader(BaseModel):
