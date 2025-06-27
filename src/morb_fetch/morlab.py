@@ -1,16 +1,29 @@
 import pooch
-from typing import Optional
+from typing import Annotated, Optional
+from typing_extensions import Doc
+from pydantic import StringConstraints
+
 from morb_fetch.config import get_config, Settings
 
 logger = pooch.get_logger()
 logger.setLevel("WARNING")
+
+DOIstr = Annotated[
+    str,
+    StringConstraints(pattern=r"^doi:10\.\d{4,9}/[-._;()/:A-Z0-9]+$"),
+    Doc(
+        "A string starting with 'doi:' followed by record id."
+    )
+]
+""" DOIstr: A string starting with 'doi:' followed by record id. """
+
 
 class MORLABDownloader:
     """
     A class to download MORLAB releases from Zenodo
     """
 
-    _registry: dict[str, str] = {
+    _registry: dict[str, DOIstr] = {
         "6.0": "doi:10.5281/zenodo.7072831",
         "5.0": "doi:10.5281/zenodo.3332716",
         "4.0": "doi:10.5281/zenodo.1574083",
