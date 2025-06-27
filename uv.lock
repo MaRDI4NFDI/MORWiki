@@ -264,7 +264,7 @@ wheels = [
 ]
 
 [[package]]
-name = "morwiki"
+name = "morb-fetch"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

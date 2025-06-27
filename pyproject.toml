@@ -1,7 +1,7 @@
 [project]
-name = "morwiki"
+name = "morb_fetch"
 version = "0.1.0"
-description = "Model Order Reduction Wiki Data downloader"
+description = "Model Order Reduction Benchmark Data Fetcher"
 readme = "README.md"
 authors = [
     { name = "MORB Developers and Contributors", email = "morb@listserv.dfn.de" },
@@ -31,11 +31,11 @@ dependencies = [
 ]
 
 [project.scripts]
-morwiki = "morwiki:main"
+morb-fetch = "morb_fetch:main"
 
 [project.urls]
-Documentation = "https://morwiki.readthedocs.io"
-Repository = "https://github.com/mardi4nfdi/morwiki"
+Documentation = "https://morb-fetch.readthedocs.io"
+Repository = "https://github.com/mardi4nfdi/morb-fetch"
 
 [build-system]
 requires = ["hatchling>=1.26", "hatch-vcs"]

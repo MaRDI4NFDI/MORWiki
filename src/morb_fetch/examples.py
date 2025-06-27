@@ -6,7 +6,7 @@ import logging
 from urllib.parse import urljoin
 from scipy.io import loadmat
 
-from morwiki.config import Settings, get_config, HumanFileSize
+from morb_fetch.config import Settings, get_config, HumanFileSize
 
 logger = pooch.get_logger()
 logger.setLevel(logging.ERROR)

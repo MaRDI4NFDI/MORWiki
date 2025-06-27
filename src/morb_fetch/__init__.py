@@ -1,11 +1,11 @@
 """
 Copyright (c) 2025 MORB Developers and Contributors. All rights reserved.
 
-morwiki: MORWiki Fetcher for MORB
+morb-fetch: Data Fetcher for MORB
 """
 
-from morwiki.config import Settings, print_config, get_config, clear_config
-from morwiki.examples import Database, Example, get_database
+from morb_fetch.config import Settings, print_config, get_config, clear_config
+from morb_fetch.examples import Database, Example, get_database
 
 __all__ = [
     "Settings",

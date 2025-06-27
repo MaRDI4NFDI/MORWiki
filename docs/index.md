@@ -1,6 +1,7 @@
-# MORWiki
+# MORB-Fetch
 
-A configurable data (and metadata) fetcher for [MORWiki](https://modelreduction.org/morwiki) examples.
+A configurable data (and metadata) fetcher for selected datasets in [MORWiki](https://modelreduction.org/morwiki) examples.
+The library is specifically designed to be used alongside Model Order Reduction Benchmarker (MORB).
 
 Authors:
 - Ashwin S. Nayak

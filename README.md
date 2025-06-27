@@ -1,6 +1,6 @@
-# MORWiki
+# MORB-Fetch
 
-A configurable data (and metadata) fetcher for [MORWiki](https://modelreduction.org/morwiki) examples.
+A configurable data (and metadata) fetcher for selected datasets in [MORWiki](https://modelreduction.org/morwiki) examples.
 
 Authors:
 - Ashwin S. Nayak
@@ -17,7 +17,7 @@ License:
 - BSD 3-Clause, see [`LICENSE`](LICENSE).
 
 Documentation:
-[![Documentation Status](https://readthedocs.org/projects/morwiki/badge/?version=latest)](https://morwiki.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/morb-fetch/badge/?version=latest)](https://morb-fetch.readthedocs.io/en/latest/?badge=latest)
 
 ## Installation
 
@@ -36,16 +36,16 @@ The following sections provide more details on how to use this project for diffe
 The project is yet to be published on PyPI, so to install this project as a dependency,
 
 ```bash
-uv add git+https://github.com/mardi4nfdi/morwiki.git
+uv add git+https://github.com/mardi4nfdi/morb-fetch.git
 ```
 > If using `pip`, you can install it via,
 > ```
-> pip install git+https://github.com/mardi4nfdi/morwiki.git
+> pip install git+https://github.com/mardi4nfdi/morb-fetch.git
 > ```
 
 You can then use it in your code,
 ```python
-from morwiki import Database, Example
+from morb_fetch import Database, Example
 
 # List all example identifiers in Database
 database = Database()
@@ -63,14 +63,14 @@ matrices = example.data
 
 The database currently has a subset of benchmarks in [MORWiki](https://modelreduction.org/morwiki), and it is best to list ids to check if they exist.
 
-`MORWiki` supports flexible configuration through environment variables or a YAML configuration file. See the [configuration guide](CONFIGURE.md) for more details.
+`MORB-Fetch` supports flexible configuration through environment variables or a YAML configuration file.
 
 ### Run Demos
 First clone the repository,
 
 ```bash
-git clone https://github.com/mardi4nfdi/morwiki.git
-cd morwiki
+git clone https://github.com/mardi4nfdi/morb-fetch.git
+cd morb-fetch
 ```
 
 Install the required dependencies,

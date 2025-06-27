@@ -1,7 +1,7 @@
 import os
 import polars as pl
-from morwiki.config import get_config
-from morwiki.examples import Database, fetch_example_meta, Example
+from morb_fetch.config import get_config
+from morb_fetch.examples import Database, Example
 
 
 def test_database():
@@ -25,7 +25,7 @@ def test_fetch_example_meta():
     config = get_config()
     db = Database(config)
 
-    sample_meta = fetch_example_meta(db.data["id"][0])
+    sample_meta = db.lookup(db.data["id"][0])
     assert set(sample_meta.keys()) == set(db.data.columns)
 
 
@@ -37,7 +37,7 @@ def test_example_initialization():
     sample_example_1 = Example(db.data["id"][0])
 
     # initialize with meta
-    sample_meta = fetch_example_meta(db.data["id"][0])
+    sample_meta = db.lookup(db.data["id"][0])
     sample_example_2 = Example(sample_meta)
 
     assert sample_example_1.meta == sample_example_2.meta

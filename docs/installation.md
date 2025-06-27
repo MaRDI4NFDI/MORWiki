@@ -17,16 +17,16 @@ For developers (testing, documentation and building), refer to {ref}`developer n
 The project is yet to be published on PyPI, so to install this project as a dependency,
 
 ```bash
-uv add git+https://github.com/mardi4nfdi/morwiki.git
+uv add git+https://github.com/mardi4nfdi/morb-fetch.git
 ```
 > If using `pip`, you can install it via,
 > ```
-> pip install git+https://github.com/mardi4nfdi/morwiki.git
+> pip install git+https://github.com/mardi4nfdi/morb-fetch.git
 > ```
 
 You can then use it in your code,
 ```python
-from morwiki import Database, Example
+from morb_fetch import Database, Example
 
 # List all example identifiers in Database
 database = Database()
@@ -44,14 +44,14 @@ matrices = example.data
 
 The database currently has a subset of the benchmarks in [MORWiki](https://modelreduction.org/morwiki), and it is best to list ids to check if they exist.
 
-`MORWiki` supports flexible configuration through environment variables or a YAML configuration file. See the {ref}`configuration guide <id-configuration>` for more details.
+`MORB-fetch` supports flexible configuration through environment variables or a YAML configuration file. See the {ref}`configuration guide <id-configuration>` for more details.
 
 ## Run Demos
 First clone the repository,
 
 ```bash
-git clone https://github.com/mardi4nfdi/morwiki.git
-cd morwiki
+git clone https://github.com/mardi4nfdi/morb-fetch.git
+cd morb-fetch
 ```
 
 Install the required dependencies,

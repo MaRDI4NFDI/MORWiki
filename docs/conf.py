@@ -3,10 +3,10 @@ from __future__ import annotations
 import importlib.metadata
 from typing import Any
 
-project = "morwiki"
+project = "morb-fetch"
 copyright = "2025, MORB Developers and Contributors"
 author = "MORB Developers and Contributors"
-version = release = importlib.metadata.version("morwiki")
+version = release = importlib.metadata.version("morb-fetch")
 
 extensions = [
     "myst_parser",
@@ -31,7 +31,7 @@ exclude_patterns = [
 html_theme = "sphinx_rtd_theme"
 
 html_theme_options: dict[str, Any] = {
-    "source_repository": "https://github.com/mardi4nfdi/morwiki",
+    "source_repository": "https://github.com/mardi4nfdi/morb-fetch",
     "source_branch": "main",
     "source_directory": "docs/",
 }

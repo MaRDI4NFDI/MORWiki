@@ -46,45 +46,47 @@ HumanFileSize = Annotated[
 
 """HumanFileSize: A human-readable file size like '10 MB' or '1.5 GiB'."""
 
-# Find path for default morwiki.config.yaml file
+# Find path for default morb_fetch.config.yaml file
 config_path = Path.cwd()
-config_filename = "morwiki.config.yaml"
+config_filename = "morb_fetch.config.yaml"
 local_config = config_path / config_filename
 if local_config.exists():
     DEFAULT_CONFIG_FILE = local_config
 else:
-    config_path = user_config_path(appname="morwiki", appauthor="morb-users")
+    config_path = user_config_path(appname="morb", appauthor="morb-users")
     global_config = config_path / config_filename
     DEFAULT_CONFIG_FILE = global_config
 
+# Default CONFIG values
+DEFAULT_SERVER_URL = "https://modelreduction.org/morb-data/"
+DEFAULT_INDEXFILE = "examples.csv"
+DEFAULT_INDEXFILEHASH = "sha256:6511ed223cce32e501c486fbfb0fa30453486366b56d1d1f1b8367f09272c9bb"
+DEFAULT_MAX_FILESIZE = None
+DEFAULT_CACHE_PATH = user_cache_path(
+    appname="morb", appauthor="morb-users", ensure_exists=True
+) / "data"
 
 class Settings(BaseSettings):
     """
-    Configuration settings for MORWiki.
+    Configuration settings for MORB-fetch.
 
     Attributes:
-        serverurl (AnyHttpUrl): The base URL for the MorWiki server.
+        serverurl (AnyHttpUrl): The base URL for the MORB-data server.
         indexfile (CSVFilename): The filename of the index file.
         indexfilehash (SHA256Hash): The SHA256 hash of the index file.
         max_filesize (Optional[HumanFileSize]): The maximum file size allowed.
         cache (Path): The path to the cache directory.
     """
 
-    serverurl: AnyHttpUrl = AnyHttpUrl(
-        "https://modelreduction.org/morb-data/"
-    )
-    indexfile: CSVFilename = "examples.csv"
-    indexfilehash: SHA256Hash = (
-        "sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791"
-    )
-    max_filesize: Optional[HumanFileSize] = None
-    cache: Path = user_cache_path(
-        appname="morwiki", appauthor="morb-users", ensure_exists=True
-    )
+    serverurl: AnyHttpUrl = AnyHttpUrl(DEFAULT_SERVER_URL)
+    indexfile: CSVFilename = DEFAULT_INDEXFILE
+    indexfilehash: SHA256Hash = DEFAULT_INDEXFILEHASH
+    max_filesize: Optional[HumanFileSize] = DEFAULT_MAX_FILESIZE
+    cache: Path = DEFAULT_CACHE_PATH
 
     # Pydantic Model config: to import the settings from environment variables
     model_config = SettingsConfigDict(
-        env_prefix="morwiki_",
+        env_prefix="morbfetch_",
         extra="ignore",
     )
 
@@ -103,7 +105,7 @@ class Settings(BaseSettings):
         Priority: Source file defaults < YAML File < Environment Variables
         """
         CONFIG_FILE = (
-            Path(os.getenv("MORWIKI_CONFIG_FILE", DEFAULT_CONFIG_FILE))
+            Path(os.getenv("MORBFETCH_CONFIG_FILE", DEFAULT_CONFIG_FILE))
             .expanduser()
             .resolve(strict=False)
         )
@@ -180,7 +182,7 @@ def print_config() -> None:
         return console.print(table)
 
     _print_dict_as_table(
-        title="MORWIKI Configuration", data=get_config().model_dump(), console=Console()
+        title="MORB-Fetch Configuration", data=get_config().model_dump(), console=Console()
     )
 
 
@@ -192,13 +194,15 @@ def create_config(yaml_path: Path):
         yaml_path (Path): The path to the YAML configuration file.
     """
     config_data = (
-        "# Server configuration for MORWiki\n"
+        "# Server configuration for MORB-Fetch\n"
         "# Server URL, database file and file hash\n"
-        'serverurl: "https://modelreduction.org/morb-data/"\n'
-        'indexfile: "examples.csv"\n'
-        'indexfilehash: "sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791"\n'
+        f'serverurl: "{DEFAULT_SERVER_URL}"\n'
+        f'indexfile: "{DEFAULT_INDEXFILE}"\n'
+        f'indexfilehash: "{DEFAULT_INDEXFILEHASH}"\n'
+        '# Restrict downloads to file size\n'
+        f'max_filesize: "{DEFAULT_MAX_FILESIZE}"\n'
         "# Custom Cache location\n"
-        f'cache_dir: "{user_cache_dir(appname="morwiki", appauthor="morb-users")}"\n'
+        f'cache_dir: "{str(DEFAULT_CACHE_PATH)}"\n'
     )
 
     if yaml_path.exists():
@@ -213,15 +217,15 @@ def list_config():
     List available configuration files in the current working directory,
     user configuration directory and any context included due to environment variables.
     """
-    yaml_file = "morwiki.config.yaml"
+    yaml_file = "morb_fetch.config.yaml"
 
     # Find if yaml file found in env
     paths = [
-        Path(os.getenv("MORWIKI_CONFIG_FILE", DEFAULT_CONFIG_FILE))
+        Path(os.getenv("MORBFETCH_CONFIG_FILE", DEFAULT_CONFIG_FILE))
         .expanduser()
         .resolve(strict=False),
         Path.cwd() / yaml_file,
-        user_config_path(appname="morwiki", appauthor="morb-users") / yaml_file,
+        user_config_path(appname="morb", appauthor="morb-users") / yaml_file,
     ]
 
     existing_configs = [path for path in set(paths) if path.exists()]
