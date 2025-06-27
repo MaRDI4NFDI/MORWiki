@@ -1,7 +1,13 @@
 # MORB-Fetch
 
-A configurable data (and metadata) fetcher for selected datasets in [MORWiki](https://modelreduction.org/morwiki) examples.
-The library is specifically designed to be used alongside Model Order Reduction Benchmarker (MORB).
+A configurable data (and metadata) fetcher for datasets and toolkits used in Model Order Reduction Benchmarker (MORB).
+
+Features:
+- Easy dataset selection, download, extraction
+- Downloaders for MORLAB and M-MESS toolkits
+- Flexible configuration options and dataset-caching
+- Strict type checking
+- Integration with MORB for seamless benchmarking
 
 Authors:
 - Ashwin S. Nayak
