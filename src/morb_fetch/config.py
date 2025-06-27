@@ -64,7 +64,7 @@ DEFAULT_INDEXFILEHASH = "sha256:6511ed223cce32e501c486fbfb0fa30453486366b56d1d1f
 DEFAULT_MAX_FILESIZE = None
 DEFAULT_CACHE_PATH = user_cache_path(
     appname="morb", appauthor="morb-users", ensure_exists=True
-) / "data"
+)
 
 class Settings(BaseSettings):
     """

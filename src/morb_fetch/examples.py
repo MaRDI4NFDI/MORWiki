@@ -47,7 +47,7 @@ class Database:
             config = get_config()
 
         # Cache directory for downloaded files
-        self.cache_dir = (config.cache).expanduser().resolve(strict=False)
+        self.cache_dir = (config.cache).expanduser().resolve(strict=False) / "data"
         ## Create directory if it doesn't exist
         if not self.cache_dir.exists():
             print(f"Creating examples cache directory: {self.cache_dir}")
@@ -193,7 +193,7 @@ class Example:
         _config = get_config()
         filename = self.meta["id"] + ".mat"
         filesize = self.meta["sourceFilesize"]
-        filefolder = self._database.cache_dir / self.meta["category"]
+        filefolder = self._database.cache_dir / "data" / self.meta["category"]
         filefolder.mkdir(parents=True, exist_ok=True)
         threshold = _config.max_filesize
 
