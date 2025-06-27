@@ -6,6 +6,7 @@ morb-fetch: Data Fetcher for MORB
 
 from morb_fetch.config import Settings, print_config, get_config, clear_config
 from morb_fetch.examples import Database, Example, get_database
+from morb_fetch.morlab import MORLABDownloader
 
 __all__ = [
     "Settings",
@@ -14,5 +15,6 @@ __all__ = [
     "print_config",
     "Database",
     "Example",
+    "MORLABDownloader",
     "get_database",
 ]
