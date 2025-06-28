@@ -34,6 +34,8 @@ DEFAULT_MAX_FILESIZE = None
 DEFAULT_CACHE_PATH = user_cache_path(
     appname="morb", appauthor="morb-users", ensure_exists=True
 )
+DEFAULT_MMESS_PATH = DEFAULT_CACHE_PATH / "MMESS"
+DEFAULT_MORLAB_PATH = DEFAULT_CACHE_PATH / "morlab"
 
 class Settings(BaseSettings):
     """
@@ -52,6 +54,8 @@ class Settings(BaseSettings):
     indexfilehash: SHA256Hash = DEFAULT_INDEXFILEHASH
     max_filesize: Optional[HumanFileSize] = DEFAULT_MAX_FILESIZE
     cache: Path = DEFAULT_CACHE_PATH
+    mmess_path: Path = DEFAULT_MMESS_PATH
+    morlab_path: Path = DEFAULT_MORLAB_PATH
 
     # Pydantic Model config: to import the settings from environment variables
     model_config = SettingsConfigDict(

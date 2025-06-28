@@ -1,4 +1,5 @@
 from morb_fetch.toolkits.toolkit import ToolkitDownloader
+from morb_fetch.config import get_config
 
 
 class MMESSDownloader(ToolkitDownloader):
@@ -12,3 +13,4 @@ class MMESSDownloader(ToolkitDownloader):
         "2.0": "doi:10.5281/zenodo.3368844",
         "1.0.1": "doi:10.5281/zenodo.50575",
     }
+    download_path = get_config().mmess_path

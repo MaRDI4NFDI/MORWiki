@@ -29,6 +29,8 @@ The default configuration is as follows:
 | Indexfile hash | `sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791` |
 | Max Filesize   | `None` |
 | Cache Location | OS-specific cache path (e.g. `~/.cache/morb` on Linux) |
+| MMESS download path  | `MMESS` subfolder within cache (e.g. `~/.cache/morb/MMESS` on Linux) |
+| MORLAB download path | `morlab` subfolder within cache (e.g. `~/.cache/morb/morlab` on Linux)
 
 This configuration is overridden either by setting environment variables or a configuration file.
 
@@ -41,6 +43,8 @@ The following environment variables correspond to the configuration properties:
 - `MORBFETCH_INDEXFILEHASH`: The SHA256 hash of the index file.
 - `MORBFETCH_MAX_FILESIZE`: The maximum file size allowed for download.
 - `MORBFETCH_CACHE`: The path to the cache directory.
+- `MORBFETCH_MMESS_PATH`: The path to the MMESS download directory.
+- `MORBFETCH_MORLAB_PATH`: The path to the MORLAB download directory.
 
 For example, to restrict the maximum file size to 100MB, in the bash prompt this can be done with,
 

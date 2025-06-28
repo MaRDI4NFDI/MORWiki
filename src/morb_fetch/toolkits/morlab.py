@@ -1,4 +1,5 @@
 from morb_fetch.toolkits.toolkit import ToolkitDownloader
+from morb_fetch.config import get_config
 
 
 class MORLABDownloader(ToolkitDownloader):
@@ -9,3 +10,4 @@ class MORLABDownloader(ToolkitDownloader):
         "4.0": "doi:10.5281/zenodo.1574083",
         "3.0": "doi:10.5281/zenodo.842659",
     }
+    download_path = get_config().morlab_path

@@ -2,6 +2,7 @@ import pooch
 from typing import Annotated, ClassVar, Optional
 from typing_extensions import Doc
 from pydantic import BaseModel, StringConstraints
+from pathlib import Path
 
 from morb_fetch._types import DOIstr
 from morb_fetch.config import get_config, Settings
@@ -16,6 +17,7 @@ class ToolkitDownloader(BaseModel):
     """
     name: ClassVar[str]
     registry: ClassVar[dict[str, DOIstr]]
+    download_path: ClassVar[Path]
 
     @classmethod
     def list_available_versions(cls) -> list[str]:
@@ -42,7 +44,7 @@ class ToolkitDownloader(BaseModel):
         # build downloader from doi
         downloader = pooch.create(
             base_url=doi,
-            path=config.cache / cls.name,
+            path=cls.download_path,
             registry=None,
         )
         downloader.load_registry_from_doi()
@@ -54,7 +56,7 @@ class ToolkitDownloader(BaseModel):
             progressbar=True,
         )
 
-        unzip_path = config.cache / cls.name / f"{cls.name}-{version}"
+        unzip_path = cls.download_path / f"{cls.name}-{version}"
         print(f"{cls.name}-{version} downloaded at {unzip_path}")
 
         return str(unzip_path)
