@@ -315,6 +315,8 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "mat73" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.3.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "polars" },
     { name = "pooch" },
     { name = "pydantic" },
@@ -345,6 +347,7 @@ test = [
 [package.metadata]
 requires-dist = [
     { name = "mat73", specifier = ">=0.65" },
+    { name = "numpy", specifier = ">=2.2.6" },
     { name = "polars", specifier = ">=1.30.0" },
     { name = "pooch", specifier = ">=1.8.2" },
     { name = "pydantic", specifier = ">=2.11.4" },
