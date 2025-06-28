@@ -79,8 +79,10 @@ class Example:
                     f"File size {filesize} exceeds maximum download size of {threshold}."
                 )
 
-            _data = loadmat(Path(filepath)) # Load MAT
-            self.data = DataSetType.validate_python(_data) # Validate and categorize dataset
+            data = loadmat(Path(filepath)) # Load MAT
+
+        self.filepath = filepath
+        self.data = DataSetType.validate_python(data) # Validate and categorize dataset
 
         print(f"Loaded example data from {filepath}")
 
