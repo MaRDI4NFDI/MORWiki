@@ -8,6 +8,7 @@ import logging
 from morb_fetch.utils import parse_human_size, loadmat
 from morb_fetch.config import get_config
 from morb_fetch.examples.database import Database, get_database
+from morb_fetch.examples.datasets import DataSetType
 
 logger = pooch.get_logger()
 logger.setLevel(logging.ERROR)
@@ -47,7 +48,7 @@ class Example:
         _config = get_config()
         filename = self.meta["id"] + ".mat"
         filesize = self.meta["sourceFilesize"]
-        filefolder = self._database.cache_dir / "data" / self.meta["category"]
+        filefolder = self._database.cache_dir / self.meta["category"]
         filefolder.mkdir(parents=True, exist_ok=True)
         threshold = _config.max_filesize
 
@@ -77,10 +78,11 @@ class Example:
                 raise ValueError(
                     f"File size {filesize} exceeds maximum download size of {threshold}."
                 )
-            data = loadmat(Path(filepath))
+
+            _data = loadmat(Path(filepath)) # Load MAT
+            self.data = DataSetType.validate_python(_data) # Validate and categorize dataset
 
         print(f"Loaded example data from {filepath}")
-        self.filepath, self.data = filepath, data
 
     def __getitem__(self, key):
         """
@@ -106,7 +108,7 @@ class Example:
             return self.meta[key]
         except KeyError:
             try:
-                return self.data[key]
+                return getattr(self.data, key)
             except AttributeError:
                 raise AttributeError(
                     f"'{self.__class__.__name__}' object has no 'data' attribute."
