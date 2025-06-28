@@ -6,7 +6,7 @@ import pooch
 import logging
 
 from morb_fetch.utils import parse_human_size, loadmat
-from morb_fetch.config import Settings, get_config
+from morb_fetch.config import get_config
 from morb_fetch.examples.database import Database, get_database
 
 logger = pooch.get_logger()
