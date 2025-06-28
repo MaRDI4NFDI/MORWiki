@@ -1,7 +1,7 @@
-# MORB-Fetch Configuration
+# MORB-fetch Configuration
 
 <!-- SPHINX-START -->
-`MORB-Fetch` supports flexible configuration through environment variables or a YAML configuration file.
+`morb-fetch` supports flexible configuration through environment variables or a YAML configuration file.
 
 The precedence for configuration values is as follows (from highest to lowest):
 1. environment variables,
@@ -28,7 +28,7 @@ The default configuration is as follows:
 | Indexfile      | `examples.csv` |
 | Indexfile hash | `sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791` |
 | Max Filesize   | `None` |
-| Cache Location | OS-specific cache path (e.g. `~/.cache/morb/data` on Linux) |
+| Cache Location | OS-specific cache path (e.g. `~/.cache/morb` on Linux) |
 
 This configuration is overridden either by setting environment variables or a configuration file.
 

@@ -1,4 +1,4 @@
-# MORB-Fetch
+# MORB-fetch
 
 A configurable data (and metadata) fetcher for datasets and toolkits used in Model Order Reduction Benchmarker (MORB).
 

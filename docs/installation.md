@@ -41,10 +41,14 @@ metadata = example.meta # or also, database.lookup(id)
 example.retrieve()
 matrices = example.data
 ```
+:::note
+The project name is `morb-fetch` with a hyphen, but the python project name is `morb_fetch` with an underscore.
+This follows along the convention used in many popular Python packages, e.g. `scikit-learn`, `python-dateutil` etc.
+:::
 
 The database currently has a subset of the benchmarks in [MORWiki](https://modelreduction.org/morwiki), and it is best to list ids to check if they exist.
 
-`MORB-fetch` supports flexible configuration through environment variables or a YAML configuration file. See the {ref}`configuration guide <id-configuration>` for more details.
+`morb-fetch` supports flexible configuration through environment variables or a YAML configuration file. See the {ref}`configuration guide <id-configuration>` for more details.
 
 ## Run Demos
 First clone the repository,
