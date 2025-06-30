@@ -2,9 +2,9 @@ import os
 from rich.console import Console
 from rich.table import Table
 from rich import print
-from typing import Annotated, Optional
+from typing import Optional
 from pathlib import Path
-from platformdirs import user_config_path, user_cache_path, user_cache_dir
+from platformdirs import user_config_path, user_cache_path
 from pydantic import AnyHttpUrl, TypeAdapter
 from pydantic_settings import (
     BaseSettings,
@@ -175,7 +175,11 @@ def create_config(yaml_path: Path):
         '# Restrict downloads to file size\n'
         f'max_filesize: "{DEFAULT_MAX_FILESIZE}"\n'
         "# Custom Cache location\n"
-        f'cache_dir: "{str(DEFAULT_CACHE_PATH)}"\n'
+        f'cache: "{str(DEFAULT_CACHE_PATH)}"\n'
+        "# Custom MESS location\n"
+        f'mmess_path: "{str(DEFAULT_MMESS_PATH)}"\n'
+        "# Custom MORLAB location\n"
+        f'morlab_path: "{str(DEFAULT_MORLAB_PATH)}"\n'
     )
 
     if yaml_path.exists():
