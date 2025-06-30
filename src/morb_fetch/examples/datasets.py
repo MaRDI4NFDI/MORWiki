@@ -20,20 +20,28 @@ class Matrix:
 
     @classmethod
     def validate(cls, value: Any) -> np.ndarray:
+        """
+        Validate the input value and convert to manageable datatypes.
+        """
         # if value.ndim != 2:
         #     raise ValueError("Expected a 2D float64 matrix")
 
         if not (isinstance(value, np.ndarray) or sp.issparse(value)):
             raise TypeError("Value must be a numpy ndarray or a scipy sparse matrix")
 
-        if np.issubdtype(value.dtype, np.integer):
-                return value.astype(np.int64)
-        elif np.issubdtype(value.dtype, np.floating):
+        if np.issubdtype(value.dtype, np.floating):
+            print('Floating type')
             return value.astype(np.float64)
-        elif np.issubdtype(value.dtype, np.complexfloating):
+
+        if np.issubdtype(value.dtype, np.complexfloating):
+            print('Complex type')
             return value.astype(np.complex128)
-        else:
-            raise TypeError(f"Unsupported dtype: {value.dtype}")
+
+        if np.issubdtype(value.dtype, np.integer):
+            print('Floating type')
+            return value.astype(np.int64)
+
+        raise TypeError(f"Unsupported dtype: {value.dtype}")
 
 
 class BaseDataType(BaseModel):
