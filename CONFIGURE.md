@@ -1,99 +1,177 @@
-# MORB-fetch Configuration
+# Configuration
 
-<!-- SPHINX-START -->
-`morb-fetch` supports flexible configuration through environment variables or a YAML configuration file.
+`morb-fetch` offers a flexible configuration system that allows you to customize its behavior. Settings can be specified through environment variables or a YAML configuration file.
 
-The precedence for configuration values is as follows (from highest to lowest):
-1. environment variables,
-2. configuration file (YAML),
-3. default configuration.
+The precedence for configuration values is as follows, with higher-listed sources overriding lower ones:
 
-The active configuration can either be inspected through the command line interface(CLI) by,
+1.  **Environment Variables**: Highest priority.
+2.  **Configuration File (YAML)**: Overridden by environment variables.
+3.  **Default Configuration**: Lowest priority.
+
+### Inspecting the Active Configuration
+
+To see the final configuration that `morb-fetch` is using after applying all overrides, you can print it to the console. This is useful for debugging your setup.
+
+From the command line:
 ```bash
-uv run python3 -m morb_fetch --print-config
+python3 -m morb_fetch --print-config
 ```
-or, within a Python script as,
+
+Or from within a Python script:
 ```python
 from morb_fetch import print_config
+
 print_config()
 ```
 
-## Default Configuration
+## Configuration Properties
 
-The default configuration is as follows:
+The following sections detail each configurable property, including its default value and how to override it using either an environment variable or a YAML configuration file key.
 
-| Property | Value |
-| ---------------|-----------|
-| Server URL     | `https://modelreduction.org/morb-data/` |
-| Indexfile      | `examples.csv` |
-| Indexfile hash | `sha256:960a243420e3e2d229bebb26313541841c6d5b51b9f215d7ca7b77c6b3636791` |
-| Max Filesize   | `None` |
-| Cache Location | OS-specific cache path (e.g. `~/.cache/morb` on Linux) |
-| MMESS download path  | `MMESS` subfolder within cache (e.g. `~/.cache/morb/MMESS` on Linux) |
-| MORLAB download path | `morlab` subfolder within cache (e.g. `~/.cache/morb/morlab` on Linux)
+### Server URL
 
-This configuration is overridden either by setting environment variables or a configuration file.
+The base URL of the server where example data is hosted.
 
-## Environment Variables
+- **Default**: `https://modelreduction.org/morb-data/`
+- **Environment Variable**: `MORBFETCH_SERVERURL`
+- **YAML Key**: `serverurl`
 
-The following environment variables correspond to the configuration properties:
+### Index File
 
-- `MORBFETCH_SERVERURL`: The base URL for the server.
-- `MORBFETCH_INDEXFILE`: The filename of the index file.
-- `MORBFETCH_INDEXFILEHASH`: The SHA256 hash of the index file.
-- `MORBFETCH_MAX_FILESIZE`: The maximum file size allowed for download.
-- `MORBFETCH_CACHE`: The path to the cache directory.
-- `MORBFETCH_MMESS_PATH`: The path to the MMESS download directory.
-- `MORBFETCH_MORLAB_PATH`: The path to the MORLAB download directory.
+The name of the CSV file that contains the list of available MORWiki examples with their metadata.
+Additionally the tool looks for this indexfile at Server URL to fetch list of available examples.
 
-For example, to restrict the maximum file size to 100MB, in the bash prompt this can be done with,
+- **Default**: `examples.csv`
+- **Environment Variable**: `MORBFETCH_INDEXFILE`
+- **YAML Key**: `indexfile`
 
+### Index File Hash
+
+The expected SHA256 hash of the index file, used to verify its integrity.
+
+- **Default**: `sha256:6511ed223cce32e501c486fbfb0fa30453486366b56d1d1f1b8367f09272c9bb`
+- **Environment Variable**: `MORBFETCH_INDEXFILEHASH`
+- **YAML Key**: `indexfile_hash`
+
+### Maximum File Size
+
+A limit on the size of files that can be downloaded. Values can be specified with units (e.g., `100MB`, `1.5 GiB`).
+
+- **Default**: `None` (no limit)
+- **Environment Variable**: `MORBFETCH_MAX_FILESIZE`
+- **YAML Key**: `max_filesize`
+
+Example: To set a 100MB limit via an environment variable:
 ```bash
 export MORBFETCH_MAX_FILESIZE=100MB
 ```
 
-Follow your operating system's instructions to set environment variables.
+### Cache Location
 
-## Configuration File
+The primary directory where downloaded files and the index are stored.
+The examples and their datasets will be located within `<cache_location>/data/`.
 
-In addition to environment variables, configuration can be provided via a YAML file named `morb_fetch.config.yaml`.
-To generate a template configuration file at a specific path (e.g. `/some/path`), run:
+- **Default**: A platform-specific cache directory (e.g., `~/.cache/morb` on Linux).
+- **Environment Variable**: `MORBFETCH_CACHE`
+- **YAML Key**: `cache`
+
+### MMESS Download Path
+
+The specific subdirectory for storing MMESS.
+MMESS is downloaded as a zip file from it's [Zenodo registry](https://zenodo.org/records/14929081) and unzipped into this directory.
+The zip file is kept in the same directory for future reference.
+
+- **Default**: A folder named `MMESS` inside the Cache Location (e.g., `~/.cache/morb/MMESS`).
+- **Environment Variable**: `MORBFETCH_MMESS_PATH`
+- **YAML Key**: `mmess_path`
+
+### MORLAB Download Path
+
+The specific subdirectory for storing MORLAB.
+MMESS is downloaded as a zip file from it's [Zenodo registry](https://zenodo.org/records/7072831) and unzipped into this directory.
+The zip file is kept in the same directory for future reference.
+
+- **Default**: A folder named `morlab` inside the Cache Location (e.g., `~/.cache/morb/morlab`).
+- **Environment Variable**: `MORBFETCH_MORLAB_PATH`
+- **YAML Key**: `morlab_path`
+
+## Using a Configuration File
+
+Using environment variables can be inconvenient for complex setups or when you want to share configurations across multiple users or machines.
+A configuration file provides a more structured and flexible way to manage settings and MORB lets you define your settings in a YAML file named `morb_fetch.config.yaml`.
+
+### File Location and Precedence
+
+`morb-fetch` searches for the configuration file in the following locations, in order:
+
+1.  The path specified by the `MORBFETCH_CONFIG_FILE` environment variable.
+2.  `morb_fetch.config.yaml` in the current working directory.
+3.  `morb_fetch.config.yaml` in the user's application configuration directory (e.g., `~/.config/morb/` on Linux).
+
+To use a configuration file from a custom location (or a different file name), set the environment variable:
+```bash
+export MORBFETCH_CONFIG_FILE=/path/to/my_custom_config.yaml
+```
+
+### Creating and Using a Configuration File
+
+You can generate a template configuration file. If a path is provided, the file is created there; otherwise, it is created in the current directory.
 
 ```bash
-uv run python3 -m morb_fetch --create-config /some/path
-```
-If no path is specified, the configuration file will be created in the current working directory.
-Using the `--create-config user` option places the file in the user's config directory (`~/.config/morb` on Linux).
+# Create a config file in /etc/morb_fetch/
+python3 -m morb_fetch --create-config /etc/morb_fetch/
 
-To specify a custom configuration file located elsewhere, set the `MORBFETCH_CONFIG_FILE` environment variable:
+# Create a config file in the user's config directory
+python3 -m morb_fetch --create-config user
+```
+
+A complete `morb_fetch.config.yaml` file looks like this:
+
+```yaml
+# The base URL for the server.
+serverurl: "https://modelreduction.org/morb-data/"
+
+# The filename of the index file.
+indexfile: "examples.csv"
+
+# The SHA256 hash of the index file for verification.
+indexfilehash: "sha256:6511ed223cce32e501c486fbfb0fa30453486366b56d1d1f1b8367f09272c9bb"
+
+# The maximum file size allowed for download (e.g., "500MB", "2GB"). Set to "None" for no limit.
+max_filesize: "None"
+
+# The path to the main cache directory.
+cache: "~/.cache/morb"
+
+# The path to the MMESS download directory (absolute path).
+mmess_path: "/path/to/MMESS"
+
+# The path to the MORLAB download directory (absolute path).
+morlab_path: "/path/to/morlab"
+```
+
+### Managing Configuration Files
+
+`morb-fetch` provides command-line tools to help manage your configuration files.
+
+**List Discovered Files**
+
+To see which configuration files `morb-fetch` finds based on its search precedence:
 ```bash
-export MORBFETCH_CONFIG_FILE=/path/to/config.yaml
+python3 -m morb_fetch --list-config
 ```
-The precedence of configuration file lookup is as follows:
-1. `MORBFETCH_CONFIG_FILE` value
-2. `morb_fetch.config.yaml` in the **current working directory**
-3. `morb_fetch.config.yaml` in the **user's config directory** (e.g. `~/.config/morb` on Linux)
 
-### Managing configuration files
+**Delete Configuration Files**
 
-To list configuration files (found in above context), run:
-
+To delete a specific configuration file (OS-independent):
 ```bash
-uv run python3 -m morb_fetch --list-config
+python3 -m morb_fetch --delete-config /path/to/morb_fetch.config.yaml
 ```
 
-To delete a configuration file, run:
-
+To delete all configuration files found by `morb-fetch`:
 ```bash
-uv run python3 -m morb_fetch --delete-config /some/path/morb_fetch.config.yaml
+python3 -m morb_fetch --delete-config all
 ```
 
-To delete all found configuration files, run:
-
-```bash
-uv run python3 -m morb_fetch --delete-config all
-```
-
-> These management functions are useful for handling static configuration of MORWiki.
-> For dynamic configuration, note that you would need to use `clear_config()`
-> before re-initiating config with `get_config()`.
+> These management functions are ideal for handling the static configuration of `morb_fetch`.
+> If you are modifying configuration dynamically within an application, you may need to call `clear_config()` before reloading the configuration with `get_config()` to ensure changes are applied.
