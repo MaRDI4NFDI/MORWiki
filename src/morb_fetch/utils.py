@@ -4,7 +4,7 @@ from morb_fetch._types import HumanFileSize
 
 def loadmat(filepath: Path) -> dict:
     """
-    Load a MATLAB file using scipy.io or mat73.
+    Load a MATLAB file using pymatreader.read_mat.
 
     Args:
         filepath (str): The path to the MATLAB file.
@@ -12,13 +12,8 @@ def loadmat(filepath: Path) -> dict:
     Returns:
         dict: The loaded MATLAB data.
     """
-    try:
-        import scipy.io as sio
-        data = sio.loadmat(filepath)
-    except NotImplementedError:
-        import mat73 as m73
-        data = m73.loadmat(filepath)
-    return data
+    from pymatreader import read_mat
+    return read_mat(filepath)
 
 
 def parse_human_size(s: HumanFileSize) -> int:
