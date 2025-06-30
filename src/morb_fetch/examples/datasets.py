@@ -30,15 +30,12 @@ class Matrix:
             raise TypeError("Value must be a numpy ndarray or a scipy sparse matrix")
 
         if np.issubdtype(value.dtype, np.floating):
-            print('Floating type')
             return value.astype(np.float64)
 
         if np.issubdtype(value.dtype, np.complexfloating):
-            print('Complex type')
             return value.astype(np.complex128)
 
         if np.issubdtype(value.dtype, np.integer):
-            print('Floating type')
             return value.astype(np.int64)
 
         raise TypeError(f"Unsupported dtype: {value.dtype}")
