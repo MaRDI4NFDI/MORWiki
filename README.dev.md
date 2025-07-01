@@ -83,4 +83,3 @@ We welcome contributions! Please follow these steps to contribute:
 3.  Make your changes and commit them with clear, descriptive messages.
 4.  Ensure all tests and linting checks pass by running `nox`.
 5.  Push your branch to your fork and open a pull request against the main `morb-fetch` repository.
-```
