@@ -50,7 +50,7 @@ Additionally the tool looks for this indexfile at Server URL to fetch list of av
 
 The expected SHA256 hash of the index file, used to verify its integrity.
 
-- **Default**: `sha256:6511ed223cce32e501c486fbfb0fa30453486366b56d1d1f1b8367f09272c9bb`
+- **Default**: `sha256:<hash>`
 - **Environment Variable**: `MORBFETCH_INDEXFILEHASH`
 - **YAML Key**: `indexfile_hash`
 
