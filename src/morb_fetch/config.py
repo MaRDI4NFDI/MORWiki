@@ -34,7 +34,7 @@ else:
 # Default CONFIG values
 DEFAULT_SERVER_URL = "https://modelreduction.org/morb-data/"
 DEFAULT_INDEXFILE = "examples.csv"
-DEFAULT_INDEXFILEHASH = "sha256:2e0e0f6574683bdbf48bbfe65e61fb5f601887ff944330934c47f44408f01429"
+DEFAULT_INDEXFILEHASH = "sha256:39a07469c4b4952d66969288608cd1cccc3d86966456d7579b9dcf4b2383a54a"
 DEFAULT_MAX_FILESIZE = None
 DEFAULT_CACHE_PATH = user_cache_path(
     appname="morb", appauthor="morb-users", ensure_exists=True
