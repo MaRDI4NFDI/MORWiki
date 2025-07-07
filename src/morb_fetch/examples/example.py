@@ -10,8 +10,9 @@ from morb_fetch.config import get_config
 from morb_fetch.examples.database import Database, get_database
 from morb_fetch.examples.datasets import DataSetType
 
-logger = pooch.get_logger()
-logger.setLevel(logging.ERROR)
+logger = logging.getLogger("morb_fetch")
+pooch_logger = pooch.get_logger()
+pooch_logger.setLevel(logging.ERROR)
 
 class Example:
     """
@@ -59,7 +60,7 @@ class Example:
             if threshold is None or (
                 parse_human_size(filesize) <= parse_human_size(threshold)
             ):
-                print(
+                logger.info(
                     f"Data file {str(filepath)} not found. Trying to fetch from zenodo/server..."
                 )
                 fileurl = self.meta["zenodoLink"]
@@ -84,7 +85,7 @@ class Example:
         self.filepath = filepath
         self.data = DataSetType.validate_python(data) # Validate and categorize dataset
 
-        print(f"Loaded example data from {filepath}")
+        logger.info(f"Loaded example data from {filepath}")
 
     def __getitem__(self, key):
         """

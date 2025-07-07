@@ -1,4 +1,6 @@
 import os
+import logging
+from rich.logging import RichHandler
 from rich.console import Console
 from rich.table import Table
 from rich import print
@@ -14,6 +16,9 @@ from pydantic_settings import (
 )
 
 from morb_fetch._types import SHA256Hash, CSVFilename, HumanFileSize, ConfigFilename
+
+logger = logging.getLogger("morb_fetch")
+logger.setLevel(logging.INFO)
 
 # Find path for default morb_fetch.config.yaml file
 config_path = Path.cwd()
@@ -88,7 +93,7 @@ class Settings(BaseSettings):
         if not CONFIG_FILE.exists():
             return (env_settings, init_settings)
         else:
-            print(f"[italic orange1]Config:[/italic orange1] {CONFIG_FILE}")
+            logger.info(f"[italic orange1]Config:[/italic orange1] {CONFIG_FILE}")
             return (
                 env_settings,
                 YamlConfigSettingsSource(settings_cls, yaml_file=CONFIG_FILE),

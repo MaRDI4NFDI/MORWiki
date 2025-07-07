@@ -1,4 +1,5 @@
 import pooch
+import logging
 from typing import Annotated, ClassVar, Optional
 from typing_extensions import Doc
 from pydantic import BaseModel, StringConstraints
@@ -7,8 +8,9 @@ from pathlib import Path
 from morb_fetch._types import DOIstr
 from morb_fetch.config import get_config, Settings
 
-logger = pooch.get_logger()
-logger.setLevel("WARNING")
+logger = logging.getLogger("morb_fetch")
+pooch_logger = pooch.get_logger()
+pooch_logger.setLevel("WARNING")
 
 
 class ToolkitDownloader(BaseModel):
@@ -57,6 +59,6 @@ class ToolkitDownloader(BaseModel):
         )
 
         unzip_path = cls.download_path / f"{cls.name}-{version}"
-        print(f"{cls.name}-{version} downloaded at {unzip_path}")
+        logger.info(f"{cls.name}-{version} downloaded at {unzip_path}")
 
         return str(unzip_path)

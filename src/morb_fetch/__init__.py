@@ -3,7 +3,11 @@ Copyright (c) 2025 MORB Developers and Contributors. All rights reserved.
 
 morb-fetch: Data Fetcher for MORB
 """
-from morb_fetch.utils import loadmat
+
+from morb_fetch.utils import loadmat, setup_logging
+
+setup_logging()
+
 from morb_fetch.config import Settings, print_config, get_config, clear_config
 from morb_fetch.examples import (
     ABCType,

@@ -5,10 +5,12 @@ import pooch
 from rich import print
 import logging
 
+logger = logging.getLogger("morb_fetch")
+
 from morb_fetch.config import Settings, get_config
 
-logger = pooch.get_logger()
-logger.setLevel(logging.ERROR)
+pooch_logger = pooch.get_logger()
+pooch_logger.setLevel(logging.ERROR)
 
 class Database:
     """
@@ -31,7 +33,7 @@ class Database:
         self.cache_dir = (config.cache).expanduser().resolve(strict=False) / "data"
         ## Create directory if it doesn't exist
         if not self.cache_dir.exists():
-            print(f"Creating examples cache directory: {self.cache_dir}")
+            logger.info(f"Creating examples cache directory: {self.cache_dir}")
             self.cache_dir.mkdir(parents=True)
 
         # Path to the examples database
@@ -43,7 +45,7 @@ class Database:
                 self.filepath, infer_schema=False, missing_utf8_is_empty_string=True
             )
         except FileNotFoundError:
-            print(
+            logger.info(
                 f"Database {self.filepath} not found. Trying to fetch from server..."
             )
             self.filepath = pooch.retrieve(
@@ -56,7 +58,7 @@ class Database:
             self.data = pl.read_csv(
                 self.filepath, infer_schema=False, missing_utf8_is_empty_string=True
             )
-        print(
+        logger.info(
             f"[italic orange1]Loaded example database:[/italic orange1] {str(self.filepath)}"
         )
 
@@ -80,11 +82,16 @@ class Database:
             dict: The example data.
         """
         example = self.data.filter(pl.col("id") == id)
-        print(f"Lookup ID [yellow]{id}[/yellow]: ", end="")
+
+        def log_lookup(id, found):
+            status = "found." if found else "not found."
+            logger.info(f"Lookup ID [yellow]{id}[/yellow]: {status}")
+
         if example.is_empty():
-            raise ValueError("not found!")
+            log_lookup(id, False)
+            raise ValueError("ID not found!")
         else:
-            print("found.")
+            log_lookup(id, True)
             return example.to_dicts()[0]
 
 

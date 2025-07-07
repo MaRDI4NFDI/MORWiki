@@ -45,3 +45,20 @@ def parse_human_size(s: HumanFileSize) -> int:
             return int(num * units[unit])
 
     raise ValueError(f"Could not parse size: {s}")
+
+def setup_logging():
+    from rich.logging import RichHandler
+    import logging
+
+    logger = logging.getLogger("morb_fetch")
+    logger.setLevel(logging.INFO)
+    handler = RichHandler(
+        # rich_tracebacks=True,
+        markup=True,
+        show_time=False,
+        show_level=False
+    )
+    formatter = logging.Formatter("[yellow]morb_fetch[/yellow]: %(message)s")
+    handler.setFormatter(formatter)
+    # handler.setLevel(logging.INFO)
+    logger.addHandler(handler)
