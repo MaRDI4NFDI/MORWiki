@@ -2,7 +2,6 @@ from typing import Optional
 from urllib.parse import urljoin
 import polars as pl
 import pooch
-from rich import print
 import logging
 
 logger = logging.getLogger("morb_fetch")
@@ -59,7 +58,7 @@ class Database:
                 self.filepath, infer_schema=False, missing_utf8_is_empty_string=True
             )
         logger.info(
-            f"[italic orange1]Loaded example database:[/italic orange1] {str(self.filepath)}"
+            f"Loaded example database: {str(self.filepath)}"
         )
 
     def list_ids(self):

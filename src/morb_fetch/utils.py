@@ -56,9 +56,10 @@ def setup_logging():
         # rich_tracebacks=True,
         markup=True,
         show_time=False,
-        show_level=False
+        show_level=False,
+        show_path=False,
     )
-    formatter = logging.Formatter("[yellow]morb_fetch[/yellow]: %(message)s")
+    formatter = logging.Formatter("[orange1]morb_fetch[/orange1]: %(message)s")
     handler.setFormatter(formatter)
     # handler.setLevel(logging.INFO)
     logger.addHandler(handler)

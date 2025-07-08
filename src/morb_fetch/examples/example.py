@@ -1,7 +1,6 @@
 from typing import Union
 from pathlib import Path
 from urllib.parse import urljoin
-from rich import print
 import pooch
 import logging
 
@@ -85,7 +84,7 @@ class Example:
         self.filepath = filepath
         self.data = DataSetType.validate_python(data) # Validate and categorize dataset
 
-        logger.info(f"Loaded example data from {filepath}")
+        logger.info(f"Loaded example data from {str(filepath)}")
 
     def __getitem__(self, key):
         """

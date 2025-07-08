@@ -148,7 +148,7 @@ def print_config() -> None:
             show_header=False,
             box=None,
             title_justify="left",
-            title_style=f"bold italic {colors[2]}",
+            title_style=f"{colors[2]}",
         )
 
         table.add_column(style=f"{colors[0]}")
@@ -160,7 +160,7 @@ def print_config() -> None:
         return console.print(table)
 
     _print_dict_as_table(
-        title="MORB-Fetch Configuration", data=get_config().model_dump(), console=Console()
+        title="morb_fetch configuration:", data=get_config().model_dump(), console=Console()
     )
 
 
