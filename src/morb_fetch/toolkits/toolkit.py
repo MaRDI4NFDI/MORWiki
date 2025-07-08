@@ -29,7 +29,7 @@ class ToolkitDownloader(BaseModel):
         return list(cls.registry.keys())
 
     @classmethod
-    def retrieve_version(cls, version: str, config: Optional[Settings]=None) -> str:
+    def retrieve_version(cls, version: str) -> str:
         """
         Retrieve a specific version of Toolkit
         """
@@ -41,7 +41,6 @@ class ToolkitDownloader(BaseModel):
         # metadata
         doi = cls.registry[version]
         zip_filename = f"{cls.name}-{version}.zip"
-        config = get_config()
 
         # build downloader from doi
         downloader = pooch.create(
