@@ -1,12 +1,10 @@
 import pooch
 import logging
-from typing import Annotated, ClassVar, Optional
-from typing_extensions import Doc
-from pydantic import BaseModel, StringConstraints
+from typing import ClassVar
+from pydantic import BaseModel
 from pathlib import Path
 
 from morb_fetch._types import DOIstr
-from morb_fetch.config import get_config, Settings
 
 logger = logging.getLogger("morb_fetch")
 pooch_logger = pooch.get_logger()

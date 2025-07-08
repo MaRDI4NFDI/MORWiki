@@ -1,6 +1,5 @@
 import os
 import logging
-from rich.logging import RichHandler
 from rich.console import Console
 from rich.table import Table
 from rich import print
